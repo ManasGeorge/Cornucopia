@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Cornucopia_App</string>
+    <string name="app_name">Cornucopia</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- Pantry -->
+    <string name="expiration_date">Exp Date</string>
 </resources>
