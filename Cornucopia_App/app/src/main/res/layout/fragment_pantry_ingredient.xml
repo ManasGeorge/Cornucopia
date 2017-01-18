@@ -19,12 +19,13 @@
             android:layout_marginStart="@dimen/text_margin_small"
             android:layout_marginTop="@dimen/text_margin"
             android:layout_toEndOf="@+id/pantry_ingredient_name"
-            android:text="@string/expiration_date"
+            android:text="@string/pantry_expiration_date_title"
             android:textAlignment="textEnd"
             android:textAppearance="@style/CardHeadingStyle" />
 
         <TextView
             android:id="@+id/pantry_ingredient_expiration_date"
+            style="@style/CardContentStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -34,7 +35,6 @@
             android:layout_marginStart="@dimen/text_margin"
             android:layout_toEndOf="@+id/pantry_ingredient_name"
             android:textAlignment="textEnd"
-            android:textAppearance="?attr/textAppearanceListItem"
             tools:text="June 1, 2017" />
 
         <TextView
@@ -51,5 +51,79 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/pantry_ingredient_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/CardHeadingStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pantry_quantity_title"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/pantry_ingredient_detail_quantity"
+                style="@style/CardContentStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                tools:text="1 gallon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/CardHeadingStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pantry_expiration_date_title"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/pantry_ingredient_detail_expiration_date"
+                style="@style/CardContentStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                tools:text="1 gallon" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pantry_ingredient_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pantry_remove_button_text"
+            android:textAlignment="center"
+            android:id="@+id/button" />
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pantry_move_to_grocery_list_button_text"
+            android:textAlignment="center" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -16,8 +16,9 @@ public class Pantry {
 
     public Pantry() {
         this.ingredientList = Arrays.asList(
-                new PantryIngredient("Eggs", new Date()),
-                new PantryIngredient("Bread", new Date())
+                new PantryIngredient("Eggs", new Date(), "2 dozen"),
+                new PantryIngredient("Bread", new Date(), "1 loaf"),
+                new PantryIngredient("Milk", new Date(), "3 gallon")
         );
     }
 

@@ -2,6 +2,12 @@
     <string name="app_name">Cornucopia</string>
     <string name="action_settings">Settings</string>
 
+
     <!-- Pantry -->
-    <string name="expiration_date">Exp Date</string>
+    <string name="pantry_expiration_date_title">Exp Date</string>
+    <string name="pantry_quantity_title">Quantity</string>
+
+    <string name="pantry_move_to_grocery_list_button_text">Move to grocery list</string>
+    <string name="pantry_remove_button_text">Remove</string>
+
 </resources>
