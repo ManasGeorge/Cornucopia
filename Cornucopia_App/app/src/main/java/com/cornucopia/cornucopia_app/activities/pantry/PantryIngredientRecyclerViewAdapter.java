@@ -1,6 +1,7 @@
 package com.cornucopia.cornucopia_app.activities.pantry;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +12,13 @@ import android.widget.TextView;
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
-import java.util.List;
+import io.realm.Realm;
+import io.realm.RealmRecyclerViewAdapter;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link PantryIngredient}
  */
-public class PantryIngredientRecyclerViewAdapter extends RecyclerView.Adapter<PantryIngredientRecyclerViewAdapter.PantryIngredientViewHolder> {
-
-    private final List<PantryIngredient> mValues;
+public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapter<PantryIngredient, PantryIngredientRecyclerViewAdapter.PantryIngredientViewHolder> {
 
     /**
      * Tracks which card is expanded to show extra details
@@ -26,8 +26,8 @@ public class PantryIngredientRecyclerViewAdapter extends RecyclerView.Adapter<Pa
      */
     private int expandedPosition = -1;
 
-    public PantryIngredientRecyclerViewAdapter(List<PantryIngredient> items) {
-        mValues = items;
+    public PantryIngredientRecyclerViewAdapter(@NonNull Context context) {
+        super(context, Realm.getDefaultInstance().where(PantryIngredient.class).findAllAsync(), true);
     }
 
     @Override
@@ -38,9 +38,10 @@ public class PantryIngredientRecyclerViewAdapter extends RecyclerView.Adapter<Pa
     }
 
     @Override
-    // Suppress as Google engineers > Lint
+    // Suppress warning as Google engineers > Lint
     public void onBindViewHolder(final PantryIngredientViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        final PantryIngredient pantryIngredient = mValues.get(position);
+        final PantryIngredient pantryIngredient = getItem(position);
+        assert pantryIngredient != null;
         holder.layoutWithPantryIngredient(pantryIngredient);
 
         final boolean isExpanded = position == this.expandedPosition;
@@ -58,14 +59,9 @@ public class PantryIngredientRecyclerViewAdapter extends RecyclerView.Adapter<Pa
                 // TODO: Transition
                 // https://www.youtube.com/watch?v=EjTJIDKT72M&feature=youtu.be&t=6m48s
                 // TransitionManager.beginDelayedTransition(???);
-                notifyDataSetChanged();;
+                notifyDataSetChanged();
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mValues.size();
     }
 
     /**

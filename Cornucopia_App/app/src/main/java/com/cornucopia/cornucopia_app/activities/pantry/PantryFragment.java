@@ -2,7 +2,6 @@ package com.cornucopia.cornucopia_app.activities.pantry;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cornucopia.cornucopia_app.R;
-import com.cornucopia.cornucopia_app.model.Pantry;
 
 /**
  * A fragment containing a list of ingredients in the user's Pantry.
@@ -37,9 +35,6 @@ public class PantryFragment extends Fragment {
 
     private OnPantryFragmentInteractionListener interactionListener;
 
-    @NonNull
-    private Pantry pantry = new Pantry();
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -61,7 +56,7 @@ public class PantryFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new PantryIngredientRecyclerViewAdapter(pantry.getIngredientList()));
+            recyclerView.setAdapter(new PantryIngredientRecyclerViewAdapter(getContext()));
         }
         return view;
     }

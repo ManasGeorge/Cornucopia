@@ -1,37 +1,40 @@
 package com.cornucopia.cornucopia_app.model;
 
-import android.support.annotation.NonNull;
-
 import java.util.Date;
 
-public class PantryIngredient {
+import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
-    @NonNull
+public class PantryIngredient extends RealmObject {
+
+    @Required
     private String ingredientName;
-    @NonNull
+    @Required
     private Date expirationDate;
-    @NonNull
+    @Required
     private String quantity;
 
-
-    public PantryIngredient(@NonNull String ingredientName, @NonNull Date expirationDate, @NonNull String quantity) {
-        this.ingredientName = ingredientName;
-        this.expirationDate = expirationDate;
-        this.quantity = quantity;
-    }
-
-    @NonNull
     public String getIngredientName() {
         return ingredientName;
     }
 
-    @NonNull
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
+
     public Date getExpirationDate() {
         return expirationDate;
     }
 
-    @NonNull
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     public String getQuantity() {
         return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 }
