@@ -10,13 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cornucopia.cornucopia_app.PantryIngredientRecyclerViewAdapter;
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.Pantry;
-import com.cornucopia.cornucopia_app.model.PantryIngredient;
-
-import java.util.Arrays;
-import java.util.Date;
 
 /**
  * A fragment containing a list of ingredients in the user's Pantry.

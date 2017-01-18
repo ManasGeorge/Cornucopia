@@ -1,4 +1,4 @@
-package com.cornucopia.cornucopia_app;
+package com.cornucopia.cornucopia_app.activities.pantry;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.util.List;
