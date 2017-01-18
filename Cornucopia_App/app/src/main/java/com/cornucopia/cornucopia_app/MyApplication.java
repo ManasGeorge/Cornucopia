@@ -38,7 +38,7 @@ public class MyApplication extends Application {
                         realm.copyToRealm(bread);
 
                         PantryIngredient milk = realm.createObject(PantryIngredient.class);
-                        milk.setIngredientName("Eggs");
+                        milk.setIngredientName("Milk");
                         milk.setExpirationDate(now);
                         milk.setQuantity("3 gallons");
                         realm.copyToRealm(milk);
