@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -109,16 +110,15 @@
         android:layout_height="wrap_content">
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/ActionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/pantry_remove_button_text"
-            android:textAlignment="center"
-            android:id="@+id/button" />
+            android:textAlignment="center" />
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/ActionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

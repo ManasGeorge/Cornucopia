@@ -2,6 +2,9 @@
     <string name="app_name">Cornucopia</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Pantry List -->
+    <string name="pantry_add_items_button_text">Add items</string>
+    <string name="pantry_what_you_can_make_now_button_text">What you can make now</string>
 
     <!-- Pantry -->
     <string name="pantry_expiration_date_title">Exp Date</string>

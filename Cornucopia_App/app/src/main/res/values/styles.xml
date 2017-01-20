@@ -17,6 +17,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <!-- General Button -->
+    <style name="ActionButtonStyle">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
     <!-- The large main label for a card -->
     <style name="CardMainStyle">
         <item name="android:textColor">@color/darkGrey</item>

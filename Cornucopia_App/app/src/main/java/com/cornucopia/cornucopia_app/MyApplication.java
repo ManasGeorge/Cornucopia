@@ -19,7 +19,6 @@ public class MyApplication extends Application {
 
         Realm.init(this);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-
                 .initialData(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {

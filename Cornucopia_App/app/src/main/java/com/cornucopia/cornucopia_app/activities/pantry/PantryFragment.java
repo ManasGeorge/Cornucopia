@@ -52,12 +52,11 @@ public class PantryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pantry_ingredient_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new PantryIngredientRecyclerViewAdapter(getContext()));
-        }
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.pantry_ingredient_list_recycler_view);
+        Context context = view.getContext();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(new PantryIngredientRecyclerViewAdapter(getContext()));
+
         return view;
     }
 
