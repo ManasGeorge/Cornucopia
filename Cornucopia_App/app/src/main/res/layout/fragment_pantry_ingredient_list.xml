@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/lightBackground">
+    android:background="@color/lightBackground"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/pantry_add_items_button_text"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/pantry_make_now_button"
