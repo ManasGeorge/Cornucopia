@@ -5,6 +5,10 @@
     <color name="colorAccent">#FF4081</color>
 
     // See material color palette https://material.io/guidelines/style/color.html#
+    <color name="blue">#4E86EC</color> <!-- Sampled from mockups -->
+
+    <color name="lightBackground">#e0e0e0</color>
     <color name="lightGrey">#9E9E9E</color>
     <color name="darkGrey">#757575</color>
+
 </resources>
