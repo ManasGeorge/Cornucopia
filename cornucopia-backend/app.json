@@ -1,0 +1,8 @@
+{
+  "name": "Cornucopia",
+  "description": "",
+  "image": "heroku/python",
+  "repository": "https://github.com/kevinrandrup/Cornucopia",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ]
+}
