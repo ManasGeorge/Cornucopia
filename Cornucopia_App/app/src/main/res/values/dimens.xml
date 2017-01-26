@@ -10,6 +10,6 @@
 
     <!-- We have to use this value because RelativeLayout sucks and will make the TextView expand
             to fill the entire screen if we don't pin the height -->
-    <dimen name="pantry_ingredient_list_grocery_list_height">90dp</dimen>
+    <dimen name="pantry_ingredient_list_grocery_list_height">35dp</dimen>
 
 </resources>
