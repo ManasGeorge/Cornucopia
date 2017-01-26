@@ -27,10 +27,6 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
      * -1 represents nothing expanded - only 1 card can be expanded at a time
      */
     private int expandedPosition = -1;
-    
-    public PantryIngredientRecyclerViewAdapter(@NonNull Context context) {
-        this(context,  Realm.getDefaultInstance().where(PantryIngredient.class).findAllAsync());
-    }
 
     public PantryIngredientRecyclerViewAdapter(@NonNull Context context, @NonNull OrderedRealmCollection<PantryIngredient> pantryIngredients) {
         super(context, pantryIngredients, true);
