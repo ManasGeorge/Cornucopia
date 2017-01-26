@@ -38,6 +38,6 @@
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
         tools:context=".activities.pantry.PantryFragment"
-        tools:listitem="@layout/fragment_pantry_ingredient" />
+        tools:listitem="@layout/pantry_ingredient_card" />
 
 </LinearLayout>

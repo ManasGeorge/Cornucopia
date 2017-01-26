@@ -39,7 +39,7 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
     @Override
     public PantryIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_pantry_ingredient, parent, false);
+                .inflate(R.layout.pantry_ingredient_card, parent, false);
         return new PantryIngredientViewHolder(view);
     }
 
