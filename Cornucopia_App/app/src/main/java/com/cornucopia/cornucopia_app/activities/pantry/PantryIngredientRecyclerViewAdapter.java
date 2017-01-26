@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
+import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -25,9 +27,13 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
      * -1 represents nothing expanded - only 1 card can be expanded at a time
      */
     private int expandedPosition = -1;
-
+    
     public PantryIngredientRecyclerViewAdapter(@NonNull Context context) {
-        super(context, Realm.getDefaultInstance().where(PantryIngredient.class).findAllAsync(), true);
+        this(context,  Realm.getDefaultInstance().where(PantryIngredient.class).findAllAsync());
+    }
+
+    public PantryIngredientRecyclerViewAdapter(@NonNull Context context, @NonNull OrderedRealmCollection<PantryIngredient> pantryIngredients) {
+        super(context, pantryIngredients, true);
     }
 
     @Override
@@ -64,6 +70,20 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
         });
     }
 
+    private void deleteItemAtPosition(final int adapterPosition) {
+        // Retrieve the ingredient and then delete it
+        final PantryIngredient ingredient = getItem(adapterPosition);
+        assert ingredient != null;
+        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                // TODO: Convert to executeTransactionAsync, retrieve PantryIngredient using a id and then delete the newly retrieved object
+                expandedPosition = -1;
+                ingredient.deleteFromRealm();
+            }
+        });
+    }
+
     /**
      *  This ViewHolder is used to cache the reference to the ingredient name and expiration date UI
      */
@@ -78,6 +98,8 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
         final TextView detailExpirationDate;
 
         final View actions;
+        final TextView actionRemove;
+        final TextView actionMove;
 
         PantryIngredientViewHolder(View view) {
             super(view);
@@ -91,6 +113,8 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
             detailExpirationDate = (TextView) view.findViewById(R.id.pantry_ingredient_detail_expiration_date);
 
             actions = view.findViewById(R.id.pantry_ingredient_actions);
+            actionRemove = (TextView) actions.findViewById(R.id.pantry_ingredient_action_remove);
+            actionMove = (TextView) actions.findViewById(R.id.pantry_ingredient_action_move);
         }
 
         @Override
@@ -105,6 +129,19 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
 
             detailQuantity.setText(pantryIngredient.getQuantity());
             detailExpirationDate.setText(pantryIngredient.getExpirationDate().toString());
+
+            actionRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PantryIngredientRecyclerViewAdapter.this.deleteItemAtPosition(getAdapterPosition());
+                }
+            });
+            actionMove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(PantryIngredientViewHolder.this.itemView.getContext(), "Coming soon to DVD", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         private void revealDetail() {
