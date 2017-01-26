@@ -12,5 +12,7 @@
 
     <string name="pantry_move_to_grocery_list_button_text">Move to grocery list</string>
     <string name="pantry_remove_button_text">Remove</string>
+    <string name="empty_pantry_message">Tap Add items to insert food into your pantry</string>
+    <string name="pantry_ingredient_list_show_grocery_list_text">Grocery List</string>
 
 </resources>
