@@ -44,3 +44,6 @@ captures/
 
 # venv
 cornucopia-backend/cornucopia/
+
+# datasets
+cornucopia-backend/sr28asc/
