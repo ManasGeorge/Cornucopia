@@ -24,6 +24,7 @@ public class MyApplication extends Application {
                     public void execute(Realm realm) {
                         // Seed data
                         Date now = new Date();
+                        now.setTime(now.getTime() + 1000 * 60 * 60 * 24 * 2); // 2 days from now
                         PantryIngredient eggs = PantryIngredient.newPantryIngredient(realm, "Eggs", now, true, "2 dozen");
                         realm.copyToRealm(eggs);
 
