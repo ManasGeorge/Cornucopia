@@ -7,6 +7,7 @@
     <string name="pantry_what_you_can_make_now_button_text">What you can make now</string>
 
     <!-- Pantry -->
+    <string name="pantry_estimated_expiration_date_title">Est. Exp Date</string>
     <string name="pantry_expiration_date_title">Exp Date</string>
     <string name="pantry_quantity_title">Quantity</string>
 
@@ -14,5 +15,18 @@
     <string name="pantry_remove_button_text">Remove</string>
     <string name="empty_pantry_message">Tap Add items to insert food into your pantry</string>
     <string name="pantry_ingredient_list_show_grocery_list_text">Grocery List</string>
+
+    <!-- Grocery -->
+    <string name="grocery_export_pdf_button_text">Export PDF</string>
+    <string name="grocery_what_you_could_make_now_button_text">What you could make now</string>
+
+    <string name="grocery_estimated_expiration_date_title">Est. Exp Date</string>
+    <string name="grocery_expiration_date_title">Exp Date</string>
+    <string name="grocery_quantity_title">Quantity</string>
+
+    <string name="grocery_move_to_pantry_button_text">Move to pantry</string>
+    <string name="grocery_remove_button_text">Remove</string>
+    <string name="empty_grocery_message">Tap Add items to insert food into your grocery</string>
+    <string name="grocery_ingredient_list_show_grocery_list_text">(this is probably a mistake)</string>
 
 </resources>
