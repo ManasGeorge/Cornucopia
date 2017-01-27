@@ -12,7 +12,6 @@ public class PantryIngredient extends RealmObject {
     private String ingredientName;
     @Required
     private Date expirationDate;
-    @Required
     private boolean isExpirationEstimated;
     @Required
     private String quantity;

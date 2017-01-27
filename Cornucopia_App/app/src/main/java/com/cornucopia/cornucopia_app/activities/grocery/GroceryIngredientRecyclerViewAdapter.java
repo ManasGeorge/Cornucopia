@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cornucopia.cornucopia_app.R;
-import com.cornucopia.cornucopia_app.activities.pantry.PantryIngredientRecyclerViewAdapter;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import io.realm.OrderedRealmCollection;
@@ -97,7 +95,7 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
         final TextView actionRemove;
         final TextView actionMove;
 
-        PantryIngredientViewHolder(View view) {
+        GroceryIngredientViewHolder(View view) {
             super(view);
             this.view = view;
             ingredientNameView = (TextView) view.findViewById(R.id.pantry_ingredient_name);
@@ -119,6 +117,7 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
         }
 
         private void layoutWithGroceryIngredient(@NonNull PantryIngredient groceryIngredient) {
+            /*
             ingredientNameView.setText(groceryIngredient.getIngredientName());
             String quantity = groceryIngredient.getQuantity();
             quantityView.setText(quantity);
@@ -138,20 +137,25 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
                     Toast.makeText(GroceryIngredientRecyclerViewAdapter.GroceryIngredientViewHolder.this.itemView.getContext(), "Coming soon to DVD", Toast.LENGTH_SHORT).show();
                 }
             });
+            */
         }
 
         private void revealDetail() {
+            /*
             quantityHeaderView.setVisibility(View.INVISIBLE);
             quantityView.setVisibility(View.INVISIBLE);
             details.setVisibility(View.VISIBLE);
             actions.setVisibility(View.VISIBLE);
+            */
         }
 
         private void hideDetail() {
+            /*
             quantityHeaderView.setVisibility(View.VISIBLE);
             quantityView.setVisibility(View.VISIBLE);
             details.setVisibility(View.GONE);
             actions.setVisibility(View.GONE);
+            */
         }
     }
 }

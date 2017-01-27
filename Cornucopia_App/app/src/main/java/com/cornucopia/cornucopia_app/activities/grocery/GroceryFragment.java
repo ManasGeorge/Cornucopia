@@ -1,6 +1,6 @@
 package com.cornucopia.cornucopia_app.activities.grocery;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,8 +14,6 @@ import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
-
-import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -67,17 +65,17 @@ public class GroceryFragment extends Fragment {
         RealmResults<PantryIngredient> groceryIngredients = Realm.getDefaultInstance().where(PantryIngredient.class).findAllAsync();
 
         // Respond to top action buttons
-        Button addItem = (Button) view.findViewById(R.id.grocery_ingredient_list_action_button_add_items);
+        Button addItem = (Button) view.findViewById(R.id.grocery_ingredient_list_action_button_add_item);
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Trigger ingredient creation flow
+                // TODO: Trigger grocery ingredient creation flow
                 Realm realm = Realm.getDefaultInstance();
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PantryIngredient newItem = PantryIngredient.newPantryIngredient(realm, "New Item", new Date(), true, "???");
-                        realm.copyToRealm(newItem);
+                        // PantryIngredient newItem = PantryIngredient.newPantryIngredient(realm, "New Item", new Date(), true, "???");
+                        // realm.copyToRealm(newItem);
                     }
                 });
             }

@@ -28,5 +28,6 @@
     <string name="grocery_remove_button_text">Remove</string>
     <string name="empty_grocery_message">Tap Add items to insert food into your grocery</string>
     <string name="grocery_ingredient_list_show_grocery_list_text">(this is probably a mistake)</string>
+    <string name="grocery_list_add_item_text">Add item</string>
 
 </resources>
