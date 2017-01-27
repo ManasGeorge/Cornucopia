@@ -2,6 +2,8 @@ package com.cornucopia.cornucopia_app.activities.pantry;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
@@ -52,6 +52,17 @@ public class PantryFragment extends Fragment {
 
     private OnPantryFragmentInteractionListener interactionListener;
     private ViewSwitcher emptyListViewSwitcher;
+
+    private View pantryContainer;
+    private View groceryListContainer;
+    private boolean isGroceryListExpanded = false;
+
+
+    private static float DEFAULT_PANTRY_CONTAINER_HEIGHT_PERCENTAGE = 0.85f;
+    private static float DEFAULT_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE = 0.15f;
+
+    private static float EXPANDED_PANTRY_CONTAINER_HEIGHT_PERCENTAGE = 0.2f;
+    private static float EXPANDED_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE = 0.8f;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -114,22 +125,51 @@ public class PantryFragment extends Fragment {
         recyclerView.setAdapter(new PantryIngredientRecyclerViewAdapter(getContext(), pantryIngredients));
 
         // Grocery List button
+        pantryContainer = view.findViewById(R.id.pantry_ingredient_list_container);
+        groceryListContainer = view.findViewById(R.id.pantry_ingredient_list_grocery_list_container);
+
+        // When use taps grocery list button show/hide the grocery list
         view.findViewById(R.id.pantry_ingredient_list_reveal_grocery_list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GroceryFragment groceryFragment = GroceryFragment.newInstance();
-                getChildFragmentManager().beginTransaction()
-                        .add(R.id.pantry_ingredient_grocery_list_container, groceryFragment, GROCERY_LIST_FRAGMENT_TAG)
-                        .commit();
+                toggleGroceryList();
             }
         });
 
+
+
         // TODO - Fix this very terrible workaround to temporarily show grocery list
         // Ideal solution is to animate the Grocery List button up with the FrameLayout below it
-        FrameLayout groceryListContainer = (FrameLayout) view.findViewById(R.id.pantry_ingredient_grocery_list_container);
-        groceryListContainer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+//        FrameLayout groceryListContainer = (FrameLayout) view.findViewById(R.id.pantry_ingredient_grocery_list_container);
+//        groceryListContainer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
 
         return view;
+    }
+
+    private void toggleGroceryList() {
+        if (isGroceryListExpanded) {
+            // Remove fragment then adjust UI
+            getChildFragmentManager().popBackStack();
+
+            adjustPercentHeight(pantryContainer, DEFAULT_PANTRY_CONTAINER_HEIGHT_PERCENTAGE);
+            adjustPercentHeight(groceryListContainer, DEFAULT_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE);
+        } else {
+            GroceryFragment groceryFragment = GroceryFragment.newInstance();
+            getChildFragmentManager().beginTransaction()
+                    .add(R.id.pantry_ingredient_grocery_list_container, groceryFragment, GROCERY_LIST_FRAGMENT_TAG)
+                    .commit();
+
+            adjustPercentHeight(pantryContainer, EXPANDED_PANTRY_CONTAINER_HEIGHT_PERCENTAGE);
+            adjustPercentHeight(groceryListContainer, EXPANDED_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE);
+        }
+        isGroceryListExpanded = !isGroceryListExpanded;
+    }
+
+    private void adjustPercentHeight(View view, float heightPercent) {
+        PercentRelativeLayout.LayoutParams params = (PercentRelativeLayout.LayoutParams) view.getLayoutParams();
+        PercentLayoutHelper.PercentLayoutInfo info = params.getPercentLayoutInfo();
+        info.heightPercent = heightPercent;
+        view.requestLayout();
     }
 
     @Override
