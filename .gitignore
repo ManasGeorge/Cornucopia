@@ -41,3 +41,6 @@ captures/
 
 # Compiled python bytecode
 /**/*.pyc
+
+# venv
+cornucopia-backend/cornucopia/
