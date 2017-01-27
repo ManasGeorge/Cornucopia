@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.util.Date;
@@ -30,6 +33,8 @@ import static android.R.id.empty;
  * interface.
  */
 public class PantryFragment extends Fragment {
+
+    private static String GROCERY_LIST_FRAGMENT_TAG = "GroceryList";
 
     /**
      * This interface must be implemented by activities that contain this
@@ -84,7 +89,6 @@ public class PantryFragment extends Fragment {
             }
         });
 
-
         // Set the adapter
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.pantry_ingredient_list_recycler_view);
         Context context = view.getContext();
@@ -108,6 +112,22 @@ public class PantryFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(new PantryIngredientRecyclerViewAdapter(getContext(), pantryIngredients));
+
+        // Grocery List button
+        view.findViewById(R.id.pantry_ingredient_list_reveal_grocery_list).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GroceryFragment groceryFragment = GroceryFragment.newInstance();
+                getChildFragmentManager().beginTransaction()
+                        .add(R.id.pantry_ingredient_grocery_list_container, groceryFragment, GROCERY_LIST_FRAGMENT_TAG)
+                        .commit();
+            }
+        });
+
+        // TODO - Fix this very terrible workaround to temporarily show grocery list
+        // Ideal solution is to animate the Grocery List button up with the FrameLayout below it
+        FrameLayout groceryListContainer = (FrameLayout) view.findViewById(R.id.pantry_ingredient_grocery_list_container);
+        groceryListContainer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
 
         return view;
     }

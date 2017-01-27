@@ -9,9 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
 import com.cornucopia.cornucopia_app.activities.pantry.PantryFragment;
 
-public class MainActivity extends AppCompatActivity implements PantryFragment.OnPantryFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements PantryFragment.OnPantryFragmentInteractionListener, GroceryFragment.OnGroceryFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide

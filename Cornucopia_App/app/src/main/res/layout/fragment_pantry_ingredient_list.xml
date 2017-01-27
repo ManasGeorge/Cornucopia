@@ -61,6 +61,7 @@
 
 
     <android.support.v7.widget.CardView
+        android:id="@+id/pantry_ingredient_list_reveal_grocery_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pantry_ingredient_list_grocery_list_height"
         android:layout_alignParentBottom="true"
@@ -74,5 +75,12 @@
             android:text="@string/pantry_ingredient_list_show_grocery_list_text"
             android:textAlignment="center" />
     </android.support.v7.widget.CardView>
+
+    <FrameLayout
+        android:id="@+id/pantry_ingredient_grocery_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/pantry_ingredient_list_reveal_grocery_list"
+        android:background="@color/blue" />
 
 </RelativeLayout>
