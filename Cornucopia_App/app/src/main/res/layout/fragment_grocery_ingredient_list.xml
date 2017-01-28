@@ -5,19 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/grocery_ingredient_list_action_button_add_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="@string/grocery_list_add_item_text" />
-
     <ViewSwitcher
         android:id="@+id/grocery_ingredient_list_view_switcher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/grocery_ingredient_list_buttons"
-        android:layout_below="@+id/grocery_ingredient_list_action_button_add_item"
+        android:layout_alignParentTop="true"
         android:inAnimation="@android:anim/slide_in_left"
         android:outAnimation="@android:anim/slide_out_right">
 

@@ -17,6 +17,7 @@ import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
+import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.util.Date;
@@ -138,6 +139,20 @@ public class PantryFragment extends Fragment {
                 toggleGroceryList();
             }
         });
+        view.findViewById(R.id.pantry_ingredient_list_grocery_list_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Trigger real grocery ingredient creation flow
+                Realm realm = Realm.getDefaultInstance();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        GroceryIngredient newItem = GroceryIngredient.newGroceryIngredient(realm, "New Item", new Date(), false, "???");
+                        realm.copyToRealm(newItem);
+                    }
+                });
+            }
+        });
 
         return view;
     }
@@ -160,6 +175,9 @@ public class PantryFragment extends Fragment {
             adjustPercentHeight(groceryListContainer, EXPANDED_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE);
         }
         isGroceryListExpanded = !isGroceryListExpanded;
+
+        View groceryAdd = groceryListContainer.findViewById(R.id.pantry_ingredient_list_grocery_list_add);
+        groceryAdd.setVisibility(isGroceryListExpanded ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void adjustPercentHeight(View view, float heightPercent) {
