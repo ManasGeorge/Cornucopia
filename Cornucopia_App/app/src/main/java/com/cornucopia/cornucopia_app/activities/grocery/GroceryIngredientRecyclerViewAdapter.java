@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 
+import java.text.DateFormat;
+
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmRecyclerViewAdapter;
@@ -21,6 +23,9 @@ import io.realm.RealmRecyclerViewAdapter;
  * {@link RecyclerView.Adapter} that can display a {@link GroceryIngredient}
  */
 public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapter<GroceryIngredient, GroceryIngredientRecyclerViewAdapter.GroceryIngredientViewHolder> {
+
+    private static final DateFormat dateFormat = DateFormat.getDateInstance();
+
     /**
      * Tracks which card is expanded to show extra details
      * -1 represents nothing expanded - only 1 card can be expanded at a time
@@ -91,6 +96,7 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
         final View details;
         final TextView detailQuantity;
         final TextView detailExpirationDate;
+        final TextView detailExpirationDateHeader;
 
         final View actions;
         final TextView actionRemove;
@@ -106,6 +112,7 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
             details = view.findViewById(R.id.grocery_ingredient_details);
             detailQuantity = (TextView) view.findViewById(R.id.grocery_ingredient_detail_quantity);
             detailExpirationDate = (TextView) view.findViewById(R.id.grocery_ingredient_detail_expiration_date);
+            detailExpirationDateHeader = (TextView) view.findViewById(R.id.grocery_ingredient_detail_expiration_date_header);
 
             actions = view.findViewById(R.id.grocery_ingredient_actions);
             actionRemove = (TextView) actions.findViewById(R.id.grocery_ingredient_action_remove);
@@ -123,8 +130,17 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
             String quantity = groceryIngredient.getQuantity();
             quantityView.setText(quantity);
 
-            detailQuantity.setText(groceryIngredient.getQuantity());
-            detailExpirationDate.setText(groceryIngredient.getExpirationDate().toString());
+            // Detail
+            detailQuantity.setText(quantity);
+
+            String expirationDateString = dateFormat.format(groceryIngredient.getExpirationDate());
+            detailExpirationDate.setText(expirationDateString);
+
+            if (groceryIngredient.isExpirationEstimated()) {
+                detailExpirationDateHeader.setText(R.string.grocery_estimated_expiration_date_title);
+            } else {
+                detailExpirationDateHeader.setText(R.string.grocery_expiration_date_title);
+            }
 
             actionRemove.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -93,10 +93,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/grocery_ingredient_detail_expiration_date_header"
                     style="@style/CardHeadingStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/grocery_expiration_date_title"
+                    tools:text="@string/grocery_expiration_date_title"
                     android:textAlignment="center" />
 
                 <TextView
