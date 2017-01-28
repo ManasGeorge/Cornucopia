@@ -19,8 +19,7 @@
         android:layout_above="@+id/grocery_ingredient_list_buttons"
         android:layout_below="@+id/grocery_ingredient_list_action_button_add_item"
         android:inAnimation="@android:anim/slide_in_left"
-        android:outAnimation="@android:anim/slide_out_right"
-        android:paddingBottom="@dimen/pantry_ingredient_list_grocery_list_height">
+        android:outAnimation="@android:anim/slide_out_right">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/grocery_ingredient_list_recycler_view"

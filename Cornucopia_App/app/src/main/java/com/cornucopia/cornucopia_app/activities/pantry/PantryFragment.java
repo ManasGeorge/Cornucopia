@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
@@ -58,11 +59,13 @@ public class PantryFragment extends Fragment {
     private boolean isGroceryListExpanded = false;
 
 
-    private static float DEFAULT_PANTRY_CONTAINER_HEIGHT_PERCENTAGE = 0.85f;
-    private static float DEFAULT_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE = 0.15f;
+    // The PercentRelativeLayout was initially used when the grocery list only covered a portion of the screen
+    // but now the grocery list covers the entire screen.
+    private static float DEFAULT_PANTRY_CONTAINER_HEIGHT_PERCENTAGE = 0.90f;
+    private static float DEFAULT_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE = 0.10f;
 
-    private static float EXPANDED_PANTRY_CONTAINER_HEIGHT_PERCENTAGE = 0.2f;
-    private static float EXPANDED_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE = 0.8f;
+    private static float EXPANDED_PANTRY_CONTAINER_HEIGHT_PERCENTAGE = 0.0f;
+    private static float EXPANDED_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE = 1.0f;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -136,13 +139,6 @@ public class PantryFragment extends Fragment {
             }
         });
 
-
-
-        // TODO - Fix this very terrible workaround to temporarily show grocery list
-        // Ideal solution is to animate the Grocery List button up with the FrameLayout below it
-//        FrameLayout groceryListContainer = (FrameLayout) view.findViewById(R.id.pantry_ingredient_grocery_list_container);
-//        groceryListContainer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-
         return view;
     }
 
@@ -150,6 +146,7 @@ public class PantryFragment extends Fragment {
         if (isGroceryListExpanded) {
             // Remove fragment then adjust UI
             getChildFragmentManager().popBackStack();
+            ((FrameLayout) groceryListContainer.findViewById(R.id.pantry_ingredient_grocery_list_container)).removeAllViews();
 
             adjustPercentHeight(pantryContainer, DEFAULT_PANTRY_CONTAINER_HEIGHT_PERCENTAGE);
             adjustPercentHeight(groceryListContainer, DEFAULT_GROCERY_LIST_CONTAINER_HEIGHT_PERCENTAGE);
