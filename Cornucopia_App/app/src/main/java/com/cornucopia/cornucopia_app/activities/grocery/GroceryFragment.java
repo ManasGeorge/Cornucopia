@@ -1,7 +1,12 @@
 package com.cornucopia.cornucopia_app.activities.grocery;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.pdf.PrintedPdfDocument;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +18,11 @@ import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -64,7 +74,7 @@ public class GroceryFragment extends Fragment {
         RealmResults<GroceryIngredient> groceryIngredients = Realm.getDefaultInstance().where(GroceryIngredient.class).findAllAsync();
 
         // Set the adapter
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.grocery_ingredient_list_recycler_view);
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.grocery_ingredient_list_recycler_view);
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
@@ -86,6 +96,36 @@ public class GroceryFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(new GroceryIngredientRecyclerViewAdapter(getContext(), groceryIngredients));
+
+        // Actions
+        view.findViewById(R.id.grocery_ingredient_list_action_button_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrintAttributes printAttributes = new PrintAttributes.Builder()
+                        // These parameters aren't important but have to be set to something
+                        .setMediaSize(PrintAttributes.MediaSize.ISO_A0)
+                        .setMinMargins(new PrintAttributes.Margins(1000, 1000, 1000, 1000))
+                        .build();
+                PrintedPdfDocument document = new PrintedPdfDocument(getContext(), printAttributes);
+                PdfDocument.Page page = document.startPage(0);
+                recyclerView.draw(page.getCanvas());
+
+                document.finishPage(page);
+
+                File outputDir = getContext().getCacheDir();
+                try {
+                    File outputFile = File.createTempFile("GroceryList", "pdf", outputDir);
+                    try (OutputStream outputStream = new FileOutputStream(outputFile)) {
+                        document.writeTo(outputStream);
+                    }
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(outputFile), "application/pdf");
+                    startActivity(Intent.createChooser(intent, "Export grocery list"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         return view;
     }
