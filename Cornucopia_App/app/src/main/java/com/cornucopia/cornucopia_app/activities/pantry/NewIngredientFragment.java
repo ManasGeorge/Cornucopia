@@ -13,26 +13,34 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.cornucopia.cornucopia_app.R;
-import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
 
+import static com.cornucopia.cornucopia_app.model.GroceryIngredient.newGroceryIngredient;
+import static com.cornucopia.cornucopia_app.model.PantryIngredient.newPantryIngredient;
+
 public class NewIngredientFragment extends DialogFragment {
     private EditText mName;
     private EditText mQuantity;
     private DatePicker mDate;
 
+    private boolean isPantryIngredient;
+    private static String arg1 = "isPantryIngredient";
 //    private OnFragmentInteractionListener mListener;
 
     public NewIngredientFragment() {
         // Required empty public constructor
     }
 
-    public static NewIngredientFragment newInstance() {
-        return new NewIngredientFragment();
+    public static NewIngredientFragment newInstance(boolean isPantryIngredient) {
+        NewIngredientFragment fragment = new NewIngredientFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(arg1, isPantryIngredient);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -54,6 +62,7 @@ public class NewIngredientFragment extends DialogFragment {
         mName = (EditText) view.findViewById(R.id.new_grocery_ingredient_name);
         mQuantity  = (EditText) view.findViewById(R.id.new_grocery_ingredient_quantity);
         mDate = (DatePicker) view.findViewById(R.id.new_grocery_ingredient_expiration_date);
+        isPantryIngredient = getArguments().getBoolean(arg1);
 
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
@@ -71,10 +80,15 @@ public class NewIngredientFragment extends DialogFragment {
                                 cal.set(Calendar.DAY_OF_MONTH, mDate.getDayOfMonth());
                                 Date date = cal.getTime();
 
-                                PantryIngredient newItem = PantryIngredient.newPantryIngredient(realm,
-                                        mName.getText().toString(), date, false,
-                                        mQuantity.getText().toString());
-                                realm.copyToRealm(newItem);
+                                if(isPantryIngredient) {
+                                    realm.copyToRealm(newPantryIngredient(realm,
+                                                    mName.getText().toString(), date, false,
+                                                    mQuantity.getText().toString()));
+                                } else {
+                                    realm.copyToRealm(newGroceryIngredient(realm,
+                                            mName.getText().toString(), date, false,
+                                            mQuantity.getText().toString()));
+                                }
                             }
                         });
                     }
