@@ -18,8 +18,6 @@ import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
-import java.util.Date;
-
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -88,15 +86,8 @@ public class PantryFragment extends Fragment {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Trigger ingredient creation flow
-                Realm realm = Realm.getDefaultInstance();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        PantryIngredient newItem = PantryIngredient.newPantryIngredient(realm, "New Item", new Date(), false, "???");
-                        realm.copyToRealm(newItem);
-                    }
-                });
+                NewIngredientFragment dialog = new NewIngredientFragment();
+                dialog.show(getFragmentManager(), "new_ingredient");
             }
         });
 
@@ -137,12 +128,10 @@ public class PantryFragment extends Fragment {
         });
 
 
-
         // TODO - Fix this very terrible workaround to temporarily show grocery list
         // Ideal solution is to animate the Grocery List button up with the FrameLayout below it
 //        FrameLayout groceryListContainer = (FrameLayout) view.findViewById(R.id.pantry_ingredient_grocery_list_container);
 //        groceryListContainer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-
         return view;
     }
 
