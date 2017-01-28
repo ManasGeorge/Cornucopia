@@ -31,7 +31,16 @@ public class IngredientTransformer {
         });
     }
 
-    public static void moveToPantry(@NonNull GroceryIngredient groceryIngredient) {
-
+    public static void moveToPantry(@NonNull final GroceryIngredient groceryIngredient) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                String ingredientName = groceryIngredient.getIngredientName();
+                PantryIngredient pantryIngredient = PantryIngredient.newPantryIngredient(realm, ingredientName, groceryIngredient.getExpirationDate(), groceryIngredient.isExpirationEstimated(), groceryIngredient.getQuantity());
+                realm.copyToRealm(pantryIngredient);
+                groceryIngredient.deleteFromRealm();
+            }
+        });
     }
 }
