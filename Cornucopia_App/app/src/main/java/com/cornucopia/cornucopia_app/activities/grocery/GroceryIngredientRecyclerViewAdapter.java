@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
@@ -122,14 +123,13 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
             String quantity = groceryIngredient.getQuantity();
             quantityView.setText(quantity);
 
-            /*
             detailQuantity.setText(groceryIngredient.getQuantity());
             detailExpirationDate.setText(groceryIngredient.getExpirationDate().toString());
 
             actionRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GroceryIngredientRecyclerViewAdapter.this.deleteItemAtPosition(getAdapterPosition());
+                    //GroceryIngredientRecyclerViewAdapter.this.deleteItemAtPosition(getAdapterPosition());
                 }
             });
             actionMove.setOnClickListener(new View.OnClickListener() {
@@ -138,25 +138,20 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
                     Toast.makeText(GroceryIngredientRecyclerViewAdapter.GroceryIngredientViewHolder.this.itemView.getContext(), "Coming soon to DVD", Toast.LENGTH_SHORT).show();
                 }
             });
-            */
         }
 
         private void revealDetail() {
-            /*
             quantityHeaderView.setVisibility(View.INVISIBLE);
             quantityView.setVisibility(View.INVISIBLE);
             details.setVisibility(View.VISIBLE);
             actions.setVisibility(View.VISIBLE);
-            */
         }
 
         private void hideDetail() {
-            /*
             quantityHeaderView.setVisibility(View.VISIBLE);
             quantityView.setVisibility(View.VISIBLE);
             details.setVisibility(View.GONE);
             actions.setVisibility(View.GONE);
-            */
         }
     }
 }
