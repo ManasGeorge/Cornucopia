@@ -3,15 +3,20 @@ package com.cornucopia.cornucopia_app.activities.pantry;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.model.ExpirationStatus;
+import com.cornucopia.cornucopia_app.businessLogic.IngredientTransformer;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -21,6 +26,8 @@ import io.realm.RealmRecyclerViewAdapter;
  * {@link RecyclerView.Adapter} that can display a {@link PantryIngredient}
  */
 public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapter<PantryIngredient, PantryIngredientRecyclerViewAdapter.PantryIngredientViewHolder> {
+
+    private static final DateFormat dateFormat = DateFormat.getDateInstance();
 
     /**
      * Tracks which card is expanded to show extra details
@@ -80,18 +87,25 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
         });
     }
 
+    private void moveToGroceryList(final int adapterPosition) {
+        PantryIngredient pantryIngredient = getItem(adapterPosition);
+        assert pantryIngredient != null;
+        IngredientTransformer.moveToGroceryList(pantryIngredient);
+    }
+
     /**
      *  This ViewHolder is used to cache the reference to the ingredient name and expiration date UI
      */
     class PantryIngredientViewHolder extends RecyclerView.ViewHolder {
         final View view;
         final TextView ingredientNameView;
-        final View expirationDateHeaderView;
+        final TextView expirationDateHeaderView;
         final TextView expirationDateView;
 
         final View details;
         final TextView detailQuantity;
         final TextView detailExpirationDate;
+        final TextView detailExpirationDateHeader;
 
         final View actions;
         final TextView actionRemove;
@@ -100,13 +114,15 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
         PantryIngredientViewHolder(View view) {
             super(view);
             this.view = view;
+
             ingredientNameView = (TextView) view.findViewById(R.id.pantry_ingredient_name);
-            expirationDateHeaderView = view.findViewById(R.id.pantry_ingredient_expiration_date_header);
+            expirationDateHeaderView = (TextView) view.findViewById(R.id.pantry_ingredient_expiration_date_header);
             expirationDateView = (TextView) view.findViewById(R.id.pantry_ingredient_expiration_date);
 
             details = view.findViewById(R.id.pantry_ingredient_details);
             detailQuantity = (TextView) view.findViewById(R.id.pantry_ingredient_detail_quantity);
             detailExpirationDate = (TextView) view.findViewById(R.id.pantry_ingredient_detail_expiration_date);
+            detailExpirationDateHeader = (TextView) view.findViewById(R.id.pantry_ingredient_detail_expiration_date_header);
 
             actions = view.findViewById(R.id.pantry_ingredient_actions);
             actionRemove = (TextView) actions.findViewById(R.id.pantry_ingredient_action_remove);
@@ -119,23 +135,37 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
         }
 
         private void layoutWithPantryIngredient(@NonNull PantryIngredient pantryIngredient) {
+            Date expirationDate = pantryIngredient.getExpirationDate();
+            String expirationDateString = dateFormat.format(expirationDate);
+            ExpirationStatus expirationStatus = ExpirationStatus.fromIngredientExpirationDate(expirationDate);
+            int expirationColor = ContextCompat.getColor(view.getContext(), expirationStatus.getExpirationColor());
+
+            if (pantryIngredient.isExpirationEstimated()) {
+                expirationDateHeaderView.setText(R.string.grocery_estimated_expiration_date_title);
+                detailExpirationDateHeader.setText(R.string.grocery_estimated_expiration_date_title);
+            } else {
+                expirationDateHeaderView.setText(R.string.grocery_expiration_date_title);
+                detailExpirationDateHeader.setText(R.string.grocery_expiration_date_title);
+            }
+
             ingredientNameView.setText(pantryIngredient.getIngredientName());
-            String expirationDate = pantryIngredient.getExpirationDate().toString();
-            expirationDateView.setText(expirationDate);
+            expirationDateView.setText(expirationDateString);
+            expirationDateView.setTextColor(expirationColor);
 
             detailQuantity.setText(pantryIngredient.getQuantity());
-            detailExpirationDate.setText(pantryIngredient.getExpirationDate().toString());
+            detailExpirationDate.setText(expirationDateString);
+            detailExpirationDate.setTextColor(expirationColor);
 
             actionRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PantryIngredientRecyclerViewAdapter.this.deleteItemAtPosition(getAdapterPosition());
+                    deleteItemAtPosition(getAdapterPosition());
                 }
             });
             actionMove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(PantryIngredientViewHolder.this.itemView.getContext(), "Coming soon to DVD", Toast.LENGTH_SHORT).show();
+                    moveToGroceryList(getAdapterPosition());
                 }
             });
         }

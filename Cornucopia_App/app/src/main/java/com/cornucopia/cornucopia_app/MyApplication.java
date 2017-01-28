@@ -2,6 +2,7 @@ package com.cornucopia.cornucopia_app;
 
 import android.app.Application;
 
+import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.util.Date;
@@ -23,16 +24,26 @@ public class MyApplication extends Application {
                 .initialData(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        // Seed data
-                        Date now = new Date();
-                        PantryIngredient eggs = PantryIngredient.newPantryIngredient(realm, "Eggs", now, true, "2 dozen");
+                        Date date = new Date();
+
+                        // Milk is expired
+                        PantryIngredient milk = PantryIngredient.newPantryIngredient(realm, "Milk", date, false, "3 gallons");
+                        realm.copyToRealm(milk);
+
+                        date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * 2); // 2 days from now
+
+                        PantryIngredient eggs = PantryIngredient.newPantryIngredient(realm, "Eggs", date, true, "2 dozen");
                         realm.copyToRealm(eggs);
 
-                        PantryIngredient bread = PantryIngredient.newPantryIngredient(realm, "Bread", now, false, "1 loaf");
+                        PantryIngredient bread = PantryIngredient.newPantryIngredient(realm, "Bread", date, false, "1 loaf");
                         realm.copyToRealm(bread);
 
-                        PantryIngredient milk = PantryIngredient.newPantryIngredient(realm, "Milk", now, false, "3 gallons");
-                        realm.copyToRealm(milk);
+
+                        GroceryIngredient milk2 = GroceryIngredient.newGroceryIngredient(realm, "Milk", date, false, "2 quarts");
+                        realm.copyToRealm(milk2);
+
+                        GroceryIngredient cheese = GroceryIngredient.newGroceryIngredient(realm, "Cheese", date, true, "1 wheel");
+                        realm.copyToRealm(cheese);
                     }
                 })
                 .build();
