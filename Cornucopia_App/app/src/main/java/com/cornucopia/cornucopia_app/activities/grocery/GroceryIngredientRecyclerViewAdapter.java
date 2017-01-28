@@ -145,7 +145,7 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
             actionRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //GroceryIngredientRecyclerViewAdapter.this.deleteItemAtPosition(getAdapterPosition());
+                    GroceryIngredientRecyclerViewAdapter.this.deleteItemAtPosition(getAdapterPosition());
                 }
             });
             actionMove.setOnClickListener(new View.OnClickListener() {
