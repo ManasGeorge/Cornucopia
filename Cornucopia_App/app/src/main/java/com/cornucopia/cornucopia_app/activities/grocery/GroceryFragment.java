@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
@@ -63,24 +62,6 @@ public class GroceryFragment extends Fragment {
 
         // Data source
         RealmResults<GroceryIngredient> groceryIngredients = Realm.getDefaultInstance().where(GroceryIngredient.class).findAllAsync();
-
-        // Respond to top action buttons
-        Button addItem = (Button) view.findViewById(R.id.grocery_ingredient_list_action_button_add_item);
-        addItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Trigger grocery ingredient creation flow
-                Realm realm = Realm.getDefaultInstance();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        // PantryIngredient newItem = PantryIngredient.newPantryIngredient(realm, "New Item", new Date(), true, "???");
-                        // realm.copyToRealm(newItem);
-                    }
-                });
-            }
-        });
-
 
         // Set the adapter
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.grocery_ingredient_list_recycler_view);
