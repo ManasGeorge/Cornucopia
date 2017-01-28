@@ -23,7 +23,7 @@ public class IngredientTransformer {
             @Override
             public void execute(Realm realm) {
                 String ingredientName = pantryIngredient.getIngredientName();
-                Date estimatedExpirationDate = new Date();
+                Date estimatedExpirationDate = ExpirationDateEstimator.estimateExpirationDate(ingredientName);
                 GroceryIngredient groceryIngredient = GroceryIngredient.newGroceryIngredient(realm, ingredientName, estimatedExpirationDate, true, pantryIngredient.getQuantity());
                 realm.copyToRealm(groceryIngredient);
                 pantryIngredient.deleteFromRealm();
