@@ -1,8 +1,8 @@
 package com.cornucopia.cornucopia_app.activities.grocery;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
-import com.cornucopia.cornucopia_app.model.PantryIngredient;
+import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -62,7 +62,7 @@ public class GroceryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_grocery_ingredient_list, container, false);
 
         // Data source
-        RealmResults<PantryIngredient> groceryIngredients = Realm.getDefaultInstance().where(PantryIngredient.class).findAllAsync();
+        RealmResults<GroceryIngredient> groceryIngredients = Realm.getDefaultInstance().where(GroceryIngredient.class).findAllAsync();
 
         // Respond to top action buttons
         Button addItem = (Button) view.findViewById(R.id.grocery_ingredient_list_action_button_add_item);
@@ -91,14 +91,14 @@ public class GroceryFragment extends Fragment {
         // When we have no ingredients then we show an empty list message instead of the RecyclerView
         emptyListViewSwitcher = (ViewSwitcher) view.findViewById(R.id.grocery_ingredient_list_view_switcher);
         final View emptyView = view.findViewById(empty);
-        groceryIngredients.addChangeListener(new RealmChangeListener<RealmResults<PantryIngredient>>() {
+        groceryIngredients.addChangeListener(new RealmChangeListener<RealmResults<GroceryIngredient>>() {
             @Override
-            public void onChange(RealmResults<PantryIngredient> element) {
-                // If no PantryIngredients then animate to empty view (only if needed)
+            public void onChange(RealmResults<GroceryIngredient> element) {
+                // If no GroceryIngredients then animate to empty view (only if needed)
                 if (element.isEmpty() && emptyListViewSwitcher.getCurrentView() != emptyView) {
                     emptyListViewSwitcher.showPrevious();
                 }
-                // If PantryIngredients then animate to recycler view (only if needed)
+                // If GroceryIngredients then animate to recycler view (only if needed)
                 if (!element.isEmpty() && emptyListViewSwitcher.getCurrentView() == emptyView) {
                     emptyListViewSwitcher.showNext();
                 }
