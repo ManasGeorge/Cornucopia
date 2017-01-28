@@ -93,12 +93,13 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
     class PantryIngredientViewHolder extends RecyclerView.ViewHolder {
         final View view;
         final TextView ingredientNameView;
-        final View expirationDateHeaderView;
+        final TextView expirationDateHeaderView;
         final TextView expirationDateView;
 
         final View details;
         final TextView detailQuantity;
         final TextView detailExpirationDate;
+        final TextView detailExpirationDateHeader;
 
         final View actions;
         final TextView actionRemove;
@@ -109,12 +110,13 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
             this.view = view;
 
             ingredientNameView = (TextView) view.findViewById(R.id.pantry_ingredient_name);
-            expirationDateHeaderView = view.findViewById(R.id.pantry_ingredient_expiration_date_header);
+            expirationDateHeaderView = (TextView) view.findViewById(R.id.pantry_ingredient_expiration_date_header);
             expirationDateView = (TextView) view.findViewById(R.id.pantry_ingredient_expiration_date);
 
             details = view.findViewById(R.id.pantry_ingredient_details);
             detailQuantity = (TextView) view.findViewById(R.id.pantry_ingredient_detail_quantity);
             detailExpirationDate = (TextView) view.findViewById(R.id.pantry_ingredient_detail_expiration_date);
+            detailExpirationDateHeader = (TextView) view.findViewById(R.id.pantry_ingredient_detail_expiration_date_header);
 
             actions = view.findViewById(R.id.pantry_ingredient_actions);
             actionRemove = (TextView) actions.findViewById(R.id.pantry_ingredient_action_remove);
@@ -131,6 +133,14 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
             String expirationDateString = dateFormat.format(expirationDate);
             ExpirationStatus expirationStatus = ExpirationStatus.fromIngredientExpirationDate(expirationDate);
             int expirationColor = ContextCompat.getColor(view.getContext(), expirationStatus.getExpirationColor());
+
+            if (pantryIngredient.isExpirationEstimated()) {
+                expirationDateHeaderView.setText(R.string.grocery_estimated_expiration_date_title);
+                detailExpirationDateHeader.setText(R.string.grocery_estimated_expiration_date_title);
+            } else {
+                expirationDateHeaderView.setText(R.string.grocery_expiration_date_title);
+                detailExpirationDateHeader.setText(R.string.grocery_expiration_date_title);
+            }
 
             ingredientNameView.setText(pantryIngredient.getIngredientName());
             expirationDateView.setText(expirationDateString);
