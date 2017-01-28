@@ -1,25 +1,33 @@
 import csv
 import datetime as dt
-import django.core.serializers.json.DjangoJSONEncoder
+from django.core import serializers
 
-meass = { '0': 'V', '1': 'W' }
+meass = ['V', 'W']
 
 with open('ausnut/FoodMeasuresFile.csv', 'r') as f:
     data = []
+    shelf = None
+    meas = None
     for e in csv.reader(f):
         if e[6] != 'density': continue
 
         print(e[2])
+        skip = False
 
         try:
-            shelf = int(input('shelf life (days) > '))
+            inp = input('shelf life (days) \'.\' to use last > ')
+            if inp != '.':
+                shelf = int()
+            else:
+                skip = True
         except:
             shelf = int(input('TRY AGAIN > '))
 
         try:
-            meas = meass(input('measure (0=V, 1=W) > '))
+            if not skip:
+                meas = meass[int(input('measure (0=V, 1=W) > '))]
         except:
-            meas = meass(input('TRY AGAIN > '))
+            meas = meass[int(input('TRY AGAIN > '))]
 
         data.append({
             'fields': {
@@ -31,4 +39,4 @@ with open('ausnut/FoodMeasuresFile.csv', 'r') as f:
         })
 
     with open('data.json', 'w') as f:
-        f.write(DjangoJSONEncoder(data))
+        f.write(serializers.serialize('json', data))
