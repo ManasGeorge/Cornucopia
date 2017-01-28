@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.ExpirationStatus;
+import com.cornucopia.cornucopia_app.businessLogic.IngredientTransformer;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.text.DateFormat;
@@ -87,6 +87,12 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
         });
     }
 
+    private void moveToGroceryList(final int adapterPosition) {
+        PantryIngredient pantryIngredient = getItem(adapterPosition);
+        assert pantryIngredient != null;
+        IngredientTransformer.moveToGroceryList(pantryIngredient);
+    }
+
     /**
      *  This ViewHolder is used to cache the reference to the ingredient name and expiration date UI
      */
@@ -159,7 +165,7 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
             actionMove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(PantryIngredientViewHolder.this.itemView.getContext(), "Coming soon to DVD", Toast.LENGTH_SHORT).show();
+                    PantryIngredientRecyclerViewAdapter.this.moveToGroceryList(getAdapterPosition());
                 }
             });
         }
