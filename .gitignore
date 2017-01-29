@@ -41,3 +41,9 @@ captures/
 
 # Compiled python bytecode
 /**/*.pyc
+
+# venv
+cornucopia-backend/cornucopia/
+
+# datasets
+cornucopia-backend/sr28asc/
