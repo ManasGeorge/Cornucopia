@@ -6,7 +6,7 @@ import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 
-public class PantryIngredient extends RealmObject {
+public class GroceryIngredient extends RealmObject {
 
     @Required
     private String ingredientName;
@@ -16,8 +16,8 @@ public class PantryIngredient extends RealmObject {
     @Required
     private String quantity;
 
-    public static PantryIngredient newPantryIngredient(Realm realm, String ingredientName, Date expirationDate, boolean isExpirationEstimated, String quantity) {
-        PantryIngredient newIngredient = realm.createObject(PantryIngredient.class);
+    public static GroceryIngredient newGroceryIngredient(Realm realm, String ingredientName, Date expirationDate, boolean isExpirationEstimated, String quantity) {
+        GroceryIngredient newIngredient = realm.createObject(GroceryIngredient.class);
         newIngredient.setIngredientName(ingredientName);
         newIngredient.setExpirationDate(expirationDate);
         newIngredient.setExpirationEstimated(isExpirationEstimated);
