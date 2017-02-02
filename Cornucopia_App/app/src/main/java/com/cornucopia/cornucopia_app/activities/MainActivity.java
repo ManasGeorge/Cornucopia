@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
 import com.cornucopia.cornucopia_app.activities.pantry.PantryFragment;
+import com.cornucopia.cornucopia_app.activities.recipes.RecipeFragment;
+import com.cornucopia.cornucopia_app.activities.settings.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity implements PantryFragment.OnPantryFragmentInteractionListener, GroceryFragment.OnGroceryFragmentInteractionListener {
 
@@ -61,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
                 return PantryFragment.newInstance();
+            } else if (position == 1) {
+                return RecipeFragment.newInstance();
+            } else if (position == 2) {
+                return SettingsFragment.newInstance();
             }
             return new Fragment();
         }
@@ -77,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
                 case 0:
                     return "Pantry";
                 case 1:
-                    return "TODO";
+                    return "Recipes";
                 case 2:
-                    return "TODO";
+                    return "Settings";
             }
             return null;
         }
