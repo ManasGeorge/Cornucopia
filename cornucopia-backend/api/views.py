@@ -1,5 +1,8 @@
+from api.models import IngredientType
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
 from django.shortcuts import render
-from django.http import HttpResponse
+
 
 # Create your views here.
 def index(request):
@@ -7,5 +10,5 @@ def index(request):
 
 def suggest_ingredient(request, **kwargs):
     prefix = kwargs['prefix']
-    # do something
-    return HttpResponse(prefix)
+    data = model_to_dict(IngredientType.objects.get(name=prefix))
+    return JsonResponse(data)
