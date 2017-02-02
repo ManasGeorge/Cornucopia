@@ -47,3 +47,6 @@ cornucopia-backend/cornucopia/
 
 # datasets
 cornucopia-backend/sr28asc/
+
+# local db
+cornucopia-backend/db.sqlite3

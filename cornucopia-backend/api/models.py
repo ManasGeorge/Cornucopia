@@ -11,9 +11,10 @@ class IngredientType(models.Model):
         )
 
     name = models.CharField(max_length=64, db_index=True)
-    estimated_shelf_life = models.DurationField()
-    preferred_measure_type = models.CharField(choices=MEASURE_TYPES)
-    density = models.FloatField() # kg/m^3
+    estimated_shelf_life = models.IntegerField()
+    preferred_measure_type = models.CharField(max_length=16,
+            choices=MEASURE_TYPES)
+    density = models.FloatField() # g/ml
 
 class Ingredient(models.Model):
     ingredient_type = models.ForeignKey('IngredientType')
