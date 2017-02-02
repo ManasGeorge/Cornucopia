@@ -10,5 +10,5 @@ def index(request):
 
 def suggest_ingredient(request, **kwargs):
     prefix = kwargs['prefix']
-    data = model_to_dict(IngredientType.objects.get(name=prefix))
-    return JsonResponse(data)
+    data = list(map(model_to_dict, IngredientType.objects.filter(name__contains=prefix)[:5]))
+    return JsonResponse(data, safe=False)
