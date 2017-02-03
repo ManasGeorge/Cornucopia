@@ -17,6 +17,5 @@ def suggest_ingredient(request, **kwargs):
     if suggest is None:
         suggest = initialize_suggestions()
     prefix = kwargs['prefix']
-    # data = list(map(model_to_dict, IngredientType.objects.filter(name__contains=prefix)[:5]))
     data = suggest(prefix)
     return JsonResponse(data, safe=False)
