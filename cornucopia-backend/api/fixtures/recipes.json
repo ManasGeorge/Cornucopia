@@ -1,0 +1,12 @@
+[
+    {
+        "model": "api.Recipe",
+        "pk": 1,
+        "fields": {
+            "name": "Brigadeiro",
+            "image": "",
+            "prep_time": 15,
+            "source": ""
+        }
+    }
+]
