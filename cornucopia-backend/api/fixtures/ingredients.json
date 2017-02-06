@@ -1,1 +1,32 @@
-[{"model": "api.IngredientType", "pk": 1, "fields": {"name": "Sugar-coated Almonds", "density": 0.76, "estimated_shelf_life": 21, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 2, "fields": {"name": "Canned Anchovies", "density": 0.63, "estimated_shelf_life": 540, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 3, "fields": {"name": "Bonza Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 4, "fields": {"name": "Canned Apples", "density": 1.06, "estimated_shelf_life": 450, "preferred_measure_type": "V"}}, {"model": "api.IngredientType", "pk": 5, "fields": {"name": "Dried Apples", "density": 0.4, "estimated_shelf_life": 270, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 6, "fields": {"name": "Fuji Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 7, "fields": {"name": "Golden Delicious Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 8, "fields": {"name": "Granny-Smith Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 9, "fields": {"name": "Green Skin Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 10, "fields": {"name": "Jonathon Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 11, "fields": {"name": "Pink Lady Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 12, "fields": {"name": "Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 13, "fields": {"name": "Red Delicious Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 14, "fields": {"name": "Red Skin Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 15, "fields": {"name": "Royal Gala Apples", "density": 0.53, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 16, "fields": {"name": "Canned Apricots (sweetened)", "density": 0.92, "estimated_shelf_life": 450, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 17, "fields": {"name": "Canned Apricots (light syrup)", "density": 1.03, "estimated_shelf_life": 450, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 18, "fields": {"name": "Canned Apricots (pear juice)", "density": 0.92, "estimated_shelf_life": 450, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 19, "fields": {"name": "Canned Apricots (syrup)", "density": 1.03, "estimated_shelf_life": 450, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 20, "fields": {"name": "Dried Apricots", "density": 0.76, "estimated_shelf_life": 270, "preferred_measure_type": "W"}}, {"model": "api.IngredientType", "pk": 21, "fields": {"name": "Apricots", "density": 0.65, "estimated_shelf_life": 3, "preferred_measure_type": "W"}}]
+[
+    {
+        "model": "api.Ingredient",
+        "pk": 1,
+        "fields": {
+            "ingredient_type": 22,
+            "quantity": 2.0,
+            "measure": "tablespoon",
+            "recipe": 1
+        }
+    },
+    {
+        "model": "api.Ingredient",
+        "pk": 2,
+        "fields": {
+            "ingredient_type": 23,
+            "quantity": 350.0,
+            "measure": "milliliters",
+            "recipe": 1
+        }
+    },
+    {
+        "model": "api.Ingredient",
+        "pk": 3,
+        "fields": {
+            "ingredient_type": 24,
+            "quantity": 4.0,
+            "measure": "tablespoon",
+            "recipe": 1
+        }
+    }
+]
