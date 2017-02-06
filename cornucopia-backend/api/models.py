@@ -20,8 +20,8 @@ class Ingredient(models.Model):
     ingredient_type = models.ForeignKey('IngredientType')
     quantity = models.FloatField() # units change based on measure
     measure = models.CharField(max_length=64)
-    expiration_date = models.DateField()
-    is_expiration_estimated = models.BooleanField()
+    # expiration_date = models.DateField() # recipes don't need these fields.
+    # is_expiration_estimated = models.BooleanField() # and we're not storing user ingredients in db
     recipe = models.ForeignKey('Recipe')
 
 class RecipeInstruction(models.Model):
