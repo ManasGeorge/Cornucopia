@@ -22,4 +22,22 @@ class Ingredient(models.Model):
     measure = models.CharField(max_length=64)
     expiration_date = models.DateField()
     is_expiration_estimated = models.BooleanField()
+    recipe = models.ForeignKey('Recipe')
+
+class RecipeInstruction(models.Model):
+    recipe = models.ForeignKey('Recipe')
+    text = models.CharField(max_length=512)
+    number = models.IntegerField() # instruction number 1, 2, etc
+
+class RecipeComment(models.Model):
+    recipe = models.ForeignKey('Recipe')
+    text = models.CharField(max_length=512)
+    user = models.CharField(max_length=128)
+    number = models.IntegerField() # instruction number 1, 2, etc
+
+class Recipe(models.Model):
+    name = models.CharField(max_length=128, db_index=True)
+    image = models.CharField(max_length=512) # url
+    prep_time = models.IntegerField() # in minutes
+    source = models.CharField(max_length=512) # url
 
