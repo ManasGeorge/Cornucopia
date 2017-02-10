@@ -9,16 +9,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
+
+import java.util.Calendar;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 import static android.R.id.empty;
+import static com.cornucopia.cornucopia_app.model.GroceryIngredient.newGroceryIngredient;
 
 /**
  * A fragment containing a list of ingredients in the user's Pantry.
@@ -58,7 +65,7 @@ public class GroceryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_grocery_ingredient_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_grocery_ingredient_list, container, false);
 
         // Data source
         RealmResults<GroceryIngredient> groceryIngredients = Realm.getDefaultInstance().where(GroceryIngredient.class).findAllAsync();
@@ -68,6 +75,9 @@ public class GroceryFragment extends Fragment {
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
+        // Adding grocery view initialization
+        initializeAddGroceryIngredientFlow(view, view.getContext());
 
         // When we have no ingredients then we show an empty list message instead of the RecyclerView
         emptyListViewSwitcher = (ViewSwitcher) view.findViewById(R.id.grocery_ingredient_list_view_switcher);
@@ -87,6 +97,7 @@ public class GroceryFragment extends Fragment {
         });
         recyclerView.setAdapter(new GroceryIngredientRecyclerViewAdapter(getContext(), groceryIngredients));
 
+
         return view;
     }
 
@@ -105,5 +116,57 @@ public class GroceryFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         interactionListener = null;
+    }
+
+    public void initializeAddGroceryIngredientFlow(final View view, final Context context) {
+        // Set up the add ingredient inputs
+        final EditText mName = (EditText) view.findViewById(R.id.new_grocery_ingredient_name);
+        final EditText mQuantity  = (EditText) view.findViewById(R.id.new_grocery_ingredient_quantity);
+
+        Button mAddIngredient = (Button) view.findViewById(R.id.new_grocery_ingredient_add);
+        mAddIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Realm realm = Realm.getDefaultInstance();
+
+                if(String.valueOf(mName.getText()).equals("")
+                        || String.valueOf(mQuantity.getText()).equals("")
+                        || String.valueOf(mName.getText()).equals(
+                        getResources().getString(R.string.enter_ingredient_name))) {
+                    Toast.makeText(context, "Name and quantity can't be empty",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealm(newGroceryIngredient(realm,
+                                mName.getText().toString(), Calendar.getInstance().getTime(),
+                                false, mQuantity.getText().toString()));
+
+                        LinearLayout newIngredient = (LinearLayout) view
+                                .findViewById(R.id.new_grocery_ingredient);
+                        mName.setText("");
+                        mName.setHint(R.string.enter_ingredient_name);
+                        mQuantity.setText("");
+                        newIngredient.setVisibility(LinearLayout.GONE);
+                    }
+                });
+
+            }
+        });
+
+        Button mCancelIngredient = (Button) view.findViewById(R.id.new_grocery_ingredient_cancel);
+        mCancelIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout newIngredient = (LinearLayout) view.findViewById(R.id.new_grocery_ingredient);
+                mName.setText("");
+                mName.setHint(R.string.enter_ingredient_name);
+                mQuantity.setText("");
+                newIngredient.setVisibility(LinearLayout.GONE);
+            }
+        });
     }
 }

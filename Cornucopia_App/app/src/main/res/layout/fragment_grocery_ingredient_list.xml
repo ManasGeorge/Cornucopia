@@ -1,9 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/new_grocery_ingredient"
+        android:visibility="gone"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:inputType="textAutoComplete|text"
+            android:hint="@string/enter_ingredient_name"
+            android:id="@+id/new_grocery_ingredient_name"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textAppearance="@style/CardMainStyle"
+            android:textAlignment="center"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/new_grocery_ingredient_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/CardHeadingStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/grocery_quantity_title"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:inputType="numberDecimal"
+                    android:id="@+id/new_grocery_ingredient_quantity"
+                    style="@style/CardContentStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_weight="1">
+
+            <Button
+                android:text="@string/add"
+                style="@style/ActionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/new_grocery_ingredient_add"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="@string/cancel"
+                style="@style/ActionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/new_grocery_ingredient_cancel"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ViewSwitcher
         android:id="@+id/grocery_ingredient_list_view_switcher"
@@ -23,7 +103,7 @@
             tools:context=".activities.grocery.GroceryFragment"
             tools:listitem="@layout/grocery_ingredient_card" />
 
-        <TextView
+        <com.joanzapata.iconify.widget.IconTextView
             android:id="@android:id/empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <Button
+        <com.joanzapata.iconify.widget.IconButton
             android:id="@+id/grocery_ingredient_list_action_button_share"
             style="@style/ActionButtonStyle"
             android:layout_width="wrap_content"
@@ -57,4 +137,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

@@ -7,6 +7,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -60,6 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -75,7 +78,7 @@
                     android:text="@string/pantry_quantity_title"
                     android:textAlignment="center" />
 
-                <TextView
+                <EditText
                     android:id="@+id/pantry_ingredient_detail_quantity"
                     style="@style/CardContentStyle"
                     android:layout_width="match_parent"
@@ -110,10 +113,11 @@
 
         <LinearLayout
             android:id="@+id/pantry_ingredient_actions"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/pantry_ingredient_action_remove"
                 style="@style/ActionButtonStyle"
                 android:layout_width="wrap_content"
@@ -122,13 +126,38 @@
                 android:text="@string/pantry_remove_button_text"
                 android:textAlignment="center" />
 
-            <Button
+            <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/pantry_ingredient_action_move"
                 style="@style/ActionButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/pantry_move_to_grocery_list_button_text"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pantry_ingredient_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/pantry_ingredient_action_done"
+                style="@style/ActionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@android:string/ok"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/pantry_ingredient_action_cancel"
+                style="@style/ActionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@android:string/cancel"
                 android:textAlignment="center" />
         </LinearLayout>
 
