@@ -14,7 +14,7 @@
 
     <string name="pantry_move_to_grocery_list_button_text">{fa-cart-plus} Move to grocery list</string>
     <string name="pantry_remove_button_text">{fa-trash} Remove</string>
-    <string name="empty_pantry_message">Tap {fa-cart-plus} Add Items to insert food into your pantry</string>
+    <string name="empty_pantry_message">Tap Add Items to insert food into your pantry</string>
     <string name="pantry_ingredient_list_show_grocery_list_text">{fa-shopping-cart} Grocery List</string>
 
     <!-- Grocery -->

@@ -103,7 +103,7 @@
             tools:context=".activities.grocery.GroceryFragment"
             tools:listitem="@layout/grocery_ingredient_card" />
 
-        <TextView
+        <com.joanzapata.iconify.widget.IconTextView
             android:id="@android:id/empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
