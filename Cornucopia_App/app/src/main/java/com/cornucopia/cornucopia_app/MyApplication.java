@@ -2,6 +2,7 @@ package com.cornucopia.cornucopia_app;
 
 import android.app.Application;
 
+import com.cornucopia.cornucopia_app.businessLogic.CustomIconsModule;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 import com.joanzapata.iconify.Iconify;
@@ -52,6 +53,6 @@ public class MyApplication extends Application {
         Realm.deleteRealm(realmConfig); // Delete Realm between app restarts (testing only)
         Realm.setDefaultConfiguration(realmConfig);
 
-        Iconify.with(new FontAwesomeModule());
+        Iconify.with(new FontAwesomeModule()).with(new CustomIconsModule());
     }
 }
