@@ -25,6 +25,7 @@ import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
+import com.cornucopia.cornucopia_app.businessLogic.ExpirationDateEstimator;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.text.DateFormat;
@@ -250,11 +251,15 @@ public class PantryFragment extends Fragment {
             public void onClick(View v) {
                 Realm realm = Realm.getDefaultInstance();
                 Date date;
+                boolean estimated;
                 try {
                     date = DateFormat.getDateInstance(DateFormat.MEDIUM)
                             .parse(String.valueOf(mDate.getText()));
+                    estimated = false;
                 } catch (ParseException e) {
-                    date = calendar.getTime();
+                    date = ExpirationDateEstimator
+                            .estimateExpirationDate(String.valueOf(mName.getText()));
+                    estimated = true;
                 }
 
                 if(String.valueOf(mName.getText()).equals("")
@@ -267,12 +272,13 @@ public class PantryFragment extends Fragment {
                 }
 
                 final Date finalDate = date;
+                final boolean finalEstimated = estimated;
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
                         realm.copyToRealm(newPantryIngredient(realm,
-                                mName.getText().toString(), finalDate, false,
-                                mQuantity.getText().toString()));
+                                mName.getText().toString(), finalDate,
+                                finalEstimated, mQuantity.getText().toString()));
 
                         LinearLayout newIngredient = (LinearLayout) view
                                 .findViewById(R.id.new_pantry_ingredient);

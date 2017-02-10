@@ -77,7 +77,7 @@
                     android:text="@string/grocery_quantity_title"
                     android:textAlignment="center" />
 
-                <TextView
+                <EditText
                     android:id="@+id/grocery_ingredient_detail_quantity"
                     style="@style/CardContentStyle"
                     android:layout_width="match_parent"
@@ -132,6 +132,31 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/grocery_move_to_pantry_button_text"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/grocery_ingredient_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/grocery_ingredient_action_done"
+                style="@style/ActionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@android:string/ok"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/grocery_ingredient_action_cancel"
+                style="@style/ActionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@android:string/cancel"
                 android:textAlignment="center" />
         </LinearLayout>
 
