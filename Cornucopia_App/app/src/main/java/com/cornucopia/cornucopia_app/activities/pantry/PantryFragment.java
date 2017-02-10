@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -223,7 +224,8 @@ public class PantryFragment extends Fragment {
 
     public void initializeAddPantryIngredientFlow(final View view, final Context context) {
         // Set up the add ingredient inputs
-        final EditText mName = (EditText) view.findViewById(R.id.new_pantry_ingredient_name);
+        final AutoCompleteTextView mName = (AutoCompleteTextView) view.findViewById(R.id.new_pantry_ingredient_name);
+        mName.setAdapter(new IngredientNameAdaptor(context));
         final EditText mQuantity  = (EditText) view.findViewById(R.id.new_pantry_ingredient_quantity);
         final TextView mDate = (TextView) view.findViewById(R.id.new_pantry_ingredient_expiration_date);
         final Calendar calendar = Calendar.getInstance();
