@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(db_index=True, max_length=64)),
-                ('estimated_shelf_life', models.DurationField()),
+                ('estimated_shelf_life', models.IntegerField()),
                 ('preferred_measure_type', models.CharField(choices=[('W', 'WEIGHT'), ('V', 'VOLUME')], max_length=16)),
                 ('density', models.FloatField()),
             ],
