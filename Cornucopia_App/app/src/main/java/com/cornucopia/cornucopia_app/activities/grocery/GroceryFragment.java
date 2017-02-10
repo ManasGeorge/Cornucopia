@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.activities.pantry.IngredientNameAdaptor;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 
 import java.util.Calendar;
@@ -120,7 +122,8 @@ public class GroceryFragment extends Fragment {
 
     public void initializeAddGroceryIngredientFlow(final View view, final Context context) {
         // Set up the add ingredient inputs
-        final EditText mName = (EditText) view.findViewById(R.id.new_grocery_ingredient_name);
+        final AutoCompleteTextView mName = (AutoCompleteTextView) view.findViewById(R.id.new_grocery_ingredient_name);
+        mName.setAdapter(new IngredientNameAdaptor(context));
         final EditText mQuantity  = (EditText) view.findViewById(R.id.new_grocery_ingredient_quantity);
 
         Button mAddIngredient = (Button) view.findViewById(R.id.new_grocery_ingredient_add);

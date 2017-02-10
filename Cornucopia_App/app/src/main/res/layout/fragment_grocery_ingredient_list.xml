@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/text_margin"
         android:orientation="vertical">
 
-        <EditText
+        <AutoCompleteTextView
             android:layout_marginTop="@dimen/text_margin"
             android:layout_marginBottom="@dimen/text_margin"
             android:inputType="textAutoComplete|text"
