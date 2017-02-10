@@ -262,6 +262,9 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
                             pantryIngredient.setExpirationEstimated(finalEstimated);
                         }
                     });
+
+                    expandedPosition = -1;
+                    return;
                 }
             });
         }

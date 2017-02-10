@@ -254,6 +254,9 @@ public class GroceryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapt
                             groceryIngredient.setExpirationEstimated(finalEstimated);
                         }
                     });
+
+                    expandedPosition = -1;
+                    return;
                 }
             });
         }

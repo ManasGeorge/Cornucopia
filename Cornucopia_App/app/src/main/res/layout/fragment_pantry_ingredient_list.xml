@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/pantry_ingredient_list_action_button_add_items"
                 style="@style/ActionButtonStyle"
                 android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                 tools:listitem="@layout/pantry_ingredient_card" />
 
 
-            <TextView
+            <com.joanzapata.iconify.widget.IconTextView
                 android:id="@android:id/empty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.joanzapata.iconify.widget.IconTextView
                     style="@style/CardMainStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -200,14 +200,14 @@
                     android:text="@string/pantry_ingredient_list_show_grocery_list_text"
                     android:textAlignment="center" />
 
-                <TextView
+                <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/pantry_ingredient_list_grocery_list_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="@dimen/text_margin"
-                    android:text="@string/add"
+                    android:text="@string/grocery_list_add_item_text"
                     android:visibility="invisible" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>

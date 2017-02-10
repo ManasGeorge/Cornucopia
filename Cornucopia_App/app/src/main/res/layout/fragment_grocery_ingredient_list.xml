@@ -117,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <Button
+        <com.joanzapata.iconify.widget.IconButton
             android:id="@+id/grocery_ingredient_list_action_button_share"
             style="@style/ActionButtonStyle"
             android:layout_width="wrap_content"

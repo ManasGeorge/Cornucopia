@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone">
 
-            <Button
+            <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/grocery_ingredient_action_remove"
                 style="@style/ActionButtonStyle"
                 android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                 android:text="@string/grocery_remove_button_text"
                 android:textAlignment="center" />
 
-            <Button
+            <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/grocery_ingredient_action_move"
                 style="@style/ActionButtonStyle"
                 android:layout_width="wrap_content"
