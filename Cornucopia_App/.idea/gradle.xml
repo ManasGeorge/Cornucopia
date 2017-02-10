@@ -8,8 +8,8 @@
         <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
         <option name="modules">
           <set>
-            <option value="/mnt/Data/Dropbox/Documents/GaTech/Classes/Spring17/Cornucopia/Cornucopia_App" />
-            <option value="/mnt/Data/Dropbox/Documents/GaTech/Classes/Spring17/Cornucopia/Cornucopia_App/app" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
