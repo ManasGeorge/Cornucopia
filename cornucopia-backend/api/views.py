@@ -30,6 +30,7 @@ def recipe_by_id(request, **kwargs):
     """Returns the full version of a recipe given its id"""
     recipe = m.Recipe.objects.get(pk=kwargs['id'])
     recipe_dict = model_to_dict(recipe)
+    # TODO(irapha): order instructions, comments, and ingredients by their number
     recipe_dict['ingredients'] = list(map(model_to_dict, recipe.ingredient_set.all()))
     recipe_dict['instructions'] = list(map(model_to_dict, recipe.recipeinstruction_set.all()))
     recipe_dict['comments'] = list(map(model_to_dict, recipe.recipecomment_set.all()))
