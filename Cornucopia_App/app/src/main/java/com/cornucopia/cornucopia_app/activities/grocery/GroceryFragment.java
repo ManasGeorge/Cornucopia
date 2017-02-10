@@ -9,16 +9,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.activities.pantry.IngredientNameAdaptor;
+import com.cornucopia.cornucopia_app.businessLogic.ExpirationDateEstimator;
+import com.cornucopia.cornucopia_app.businessLogic.ServerConnector;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -120,13 +129,33 @@ public class GroceryFragment extends Fragment {
 
     public void initializeAddGroceryIngredientFlow(final View view, final Context context) {
         // Set up the add ingredient inputs
-        final EditText mName = (EditText) view.findViewById(R.id.new_grocery_ingredient_name);
-        final EditText mQuantity  = (EditText) view.findViewById(R.id.new_grocery_ingredient_quantity);
+        final AutoCompleteTextView mName = (AutoCompleteTextView) view.findViewById(R.id.new_grocery_ingredient_name);
+        final TextView mDate = new TextView(context);
+        final boolean[] isEstimated = {false};
 
+        mName.setAdapter(new IngredientNameAdaptor(context));
+        mName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Map.Entry<Integer, String> item = (Map.Entry<Integer, String>) adapterView.getItemAtPosition(i);
+                mName.setText(item.getValue());
+                new ServerConnector(context).setEstimatedDate(item.getKey(), mDate, isEstimated);
+            }
+        });
+
+        final EditText mQuantity  = (EditText) view.findViewById(R.id.new_grocery_ingredient_quantity);
         Button mAddIngredient = (Button) view.findViewById(R.id.new_grocery_ingredient_add);
         mAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                try {
+                    calendar.setTime(DateFormat.getDateInstance(DateFormat.MEDIUM)
+                            .parse(String.valueOf(mDate.getText())));
+                } catch (ParseException e) {
+                    calendar.setTime(ExpirationDateEstimator.estimateExpirationDate(mName.getText().toString()));
+                }
+
                 Realm realm = Realm.getDefaultInstance();
 
                 if(String.valueOf(mName.getText()).equals("")
@@ -142,8 +171,8 @@ public class GroceryFragment extends Fragment {
                     @Override
                     public void execute(Realm realm) {
                         realm.copyToRealm(newGroceryIngredient(realm,
-                                mName.getText().toString(), Calendar.getInstance().getTime(),
-                                false, mQuantity.getText().toString()));
+                                mName.getText().toString(), calendar.getTime(),
+                                true, mQuantity.getText().toString()));
 
                         LinearLayout newIngredient = (LinearLayout) view
                                 .findViewById(R.id.new_grocery_ingredient);

@@ -150,7 +150,6 @@ public class PantryIngredientRecyclerViewAdapter extends RealmRecyclerViewAdapte
         }
 
         private void layoutWithPantryIngredient(@NonNull final PantryIngredient pantryIngredient) {
-            view.requestFocus();
             Date expirationDate = pantryIngredient.getExpirationDate();
             final String expirationDateString = dateFormat.format(expirationDate);
             ExpirationStatus expirationStatus = ExpirationStatus.fromIngredientExpirationDate(expirationDate);

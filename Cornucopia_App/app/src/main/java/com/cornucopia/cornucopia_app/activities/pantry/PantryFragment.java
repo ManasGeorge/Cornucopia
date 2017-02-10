@@ -14,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,12 +28,14 @@ import android.widget.ViewSwitcher;
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
 import com.cornucopia.cornucopia_app.businessLogic.ExpirationDateEstimator;
+import com.cornucopia.cornucopia_app.businessLogic.ServerConnector;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -223,12 +227,31 @@ public class PantryFragment extends Fragment {
 
     public void initializeAddPantryIngredientFlow(final View view, final Context context) {
         // Set up the add ingredient inputs
-        final EditText mName = (EditText) view.findViewById(R.id.new_pantry_ingredient_name);
+        final AutoCompleteTextView mName = (AutoCompleteTextView) view.findViewById(R.id.new_pantry_ingredient_name);
         final EditText mQuantity  = (EditText) view.findViewById(R.id.new_pantry_ingredient_quantity);
         final TextView mDate = (TextView) view.findViewById(R.id.new_pantry_ingredient_expiration_date);
         final Calendar calendar = Calendar.getInstance();
+        final boolean[] isEstimated = {false};
+
+        mName.setAdapter(new IngredientNameAdaptor(context));
+        mName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Map.Entry<Integer, String> item = (Map.Entry<Integer, String>) adapterView.getItemAtPosition(i);
+                mName.setText(item.getValue());
+                new ServerConnector(context).setEstimatedDate(item.getKey(), mDate, isEstimated);
+            }
+        });
+
         mDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                try {
+                    calendar.setTime(DateFormat.getDateInstance(DateFormat.MEDIUM)
+                            .parse(String.valueOf(mDate.getText())));
+                } catch (ParseException e) {
+                    ;
+                }
+
                 Dialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -238,6 +261,7 @@ public class PantryFragment extends Fragment {
                         cal.set(Calendar.DAY_OF_MONTH, day);
                         Date date = cal.getTime();
                         mDate.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(date));
+                        isEstimated[0] = false;
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
@@ -251,15 +275,14 @@ public class PantryFragment extends Fragment {
             public void onClick(View v) {
                 Realm realm = Realm.getDefaultInstance();
                 Date date;
-                boolean estimated;
                 try {
                     date = DateFormat.getDateInstance(DateFormat.MEDIUM)
                             .parse(String.valueOf(mDate.getText()));
-                    estimated = false;
+                    isEstimated[0] = false;
                 } catch (ParseException e) {
                     date = ExpirationDateEstimator
                             .estimateExpirationDate(String.valueOf(mName.getText()));
-                    estimated = true;
+                    isEstimated[0] = true;
                 }
 
                 if(String.valueOf(mName.getText()).equals("")
@@ -272,13 +295,12 @@ public class PantryFragment extends Fragment {
                 }
 
                 final Date finalDate = date;
-                final boolean finalEstimated = estimated;
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
                         realm.copyToRealm(newPantryIngredient(realm,
                                 mName.getText().toString(), finalDate,
-                                finalEstimated, mQuantity.getText().toString()));
+                                isEstimated[0], mQuantity.getText().toString()));
 
                         LinearLayout newIngredient = (LinearLayout) view
                                 .findViewById(R.id.new_pantry_ingredient);
