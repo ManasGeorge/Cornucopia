@@ -17,6 +17,12 @@
     <string name="empty_pantry_message">Tap {pantry-add} Add Items to insert food into your pantry</string>
     <string name="pantry_ingredient_list_show_grocery_list_text">{fa-shopping-cart} Grocery List</string>
 
+    <!-- Recipes -->
+    <string name="recipes_home_show_favorites_text">{fa-heart} Favorites</string>
+    <string name="recipe_home_make_now_button_text">What you can make now</string>
+    <string name="recipe_home_could_make_button_text">What you could make</string>
+    <string name="recipe_home_browse_button_text">Browse Recipes</string>
+
     <!-- Grocery -->
     <string name="enter_ingredient_name">Enter Ingredient Name</string>
     <string name="grocery_export_pdf_button_text">{fa-share-alt} Export PDF</string>
