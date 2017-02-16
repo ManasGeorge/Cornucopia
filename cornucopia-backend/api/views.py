@@ -1,5 +1,6 @@
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
 
 import api.models as m
@@ -10,7 +11,11 @@ suggest = None
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Cornucopia Backend API")
+    print request.META
+    if not 'HTTP_TOKEN' in request.META:
+        request.META['HTTP_TOKEN'] = 'none'
+
+    return HttpResponse("Cornucopia Backend API w/ token: " + request.META['HTTP_TOKEN'])
 
 def suggest_ingredient(request, **kwargs):
     """Returns a list of suggested ingredient types, based on a query string"""
