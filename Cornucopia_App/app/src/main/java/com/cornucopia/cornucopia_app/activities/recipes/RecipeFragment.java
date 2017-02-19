@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,13 @@ public class RecipeFragment extends Fragment {
         canRecipes.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
+                Log.d("CAN VIEW HOLDER", "Data changed");
                 // If no PantryIngredients then animate to empty view (only if needed)
-                if (canRecipes.getItemCount() == 0 && canMakeViewSwitcher.getCurrentView() !=
+                if (canRecipes.getItemCount() == 0 && canMakeViewSwitcher.getCurrentView() ==
                         view.findViewById(R.id.recipe_home_make_now_recycler_view)) {
                     canMakeViewSwitcher.showPrevious();
                 }
-                if (canRecipes.getItemCount() != 0 && canMakeViewSwitcher.getCurrentView() ==
+                if (canRecipes.getItemCount() != 0 && canMakeViewSwitcher.getCurrentView() !=
                         view.findViewById(R.id.recipe_home_make_now_recycler_view)) {
                     canMakeViewSwitcher.showNext();
                 }
@@ -57,11 +59,11 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onChanged() {
                 // If no PantryIngredients then animate to empty view (only if needed)
-                if (couldRecipes.getItemCount() == 0 && couldMakeViewSwitcher.getCurrentView() !=
+                if (couldRecipes.getItemCount() == 0 && couldMakeViewSwitcher.getCurrentView() ==
                         view.findViewById(R.id.recipe_home_could_make_recycler_view)) {
                     couldMakeViewSwitcher.showPrevious();
                 }
-                if (couldRecipes.getItemCount() != 0 && couldMakeViewSwitcher.getCurrentView() ==
+                if (couldRecipes.getItemCount() != 0 && couldMakeViewSwitcher.getCurrentView() !=
                         view.findViewById(R.id.recipe_home_could_make_recycler_view)) {
                     couldMakeViewSwitcher.showNext();
                 }

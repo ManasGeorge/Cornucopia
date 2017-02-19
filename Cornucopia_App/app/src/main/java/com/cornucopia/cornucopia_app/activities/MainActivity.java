@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private int numExpired = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    public void updateExpired(int newExpired) {
+        numExpired = newExpired;
+        mViewPager.getAdapter().notifyDataSetChanged();
     }
 
     /**
@@ -81,7 +87,12 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Pantry";
+                    if(numExpired == 0)
+                        return "Pantry";
+                    else if(numExpired > 10)
+                        return "Pantry (10+)";
+                    else
+                        return "Pantry ("+ numExpired +")";
                 case 1:
                     return "Recipes";
                 case 2:
