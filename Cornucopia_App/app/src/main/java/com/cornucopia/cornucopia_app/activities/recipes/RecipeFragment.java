@@ -2,18 +2,15 @@ package com.cornucopia.cornucopia_app.activities.recipes;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
 
-/**
- * Created by Kevin on 2/1/17.
- */
 public class RecipeFragment extends Fragment {
     public static RecipeFragment newInstance() {
         return new RecipeFragment();
@@ -23,19 +20,53 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_recipes_home, container, false);
+        final RecipeCardRecyclerViewAdaptor canRecipes = new RecipeCardRecyclerViewAdaptor(getContext(), "can_make");
+        final RecipeCardRecyclerViewAdaptor couldRecipes = new RecipeCardRecyclerViewAdaptor(getContext(), "could_make");
+        RecipeCardRecyclerViewAdaptor browse = new RecipeCardRecyclerViewAdaptor(getContext(), "browse");
 
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.recipe_home_make_now_linear_layout);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        layoutParams.setMargins(1, 1, 1, 1);
-        layoutParams.gravity = Gravity.LEFT;
+        RecyclerView canView = (RecyclerView) view.findViewById(R.id.recipe_home_make_now_recycler_view);
+        canView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        canView.setAdapter(canRecipes);
 
-        // Add 4 images
-        for (int i = 0; i < 4; i++) {
-            ImageView imageView = new ImageView(getActivity());
-            imageView.setImageResource(R.drawable.whale);
-            imageView.setLayoutParams(layoutParams);
-            layout.addView(imageView);
-        }
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recipe_home_could_make_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(couldRecipes);
+
+        RecyclerView browseView = (RecyclerView) view.findViewById(R.id.recipe_home_browse_recipes);
+        browseView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        browseView.setAdapter(browse);
+
+        final ViewSwitcher canMakeViewSwitcher = (ViewSwitcher) view.findViewById(R.id.recipe_home_make_now_view_switcher);
+        final ViewSwitcher couldMakeViewSwitcher = (ViewSwitcher) view.findViewById(R.id.recipe_home_could_make_view_switcher);
+        canRecipes.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                // If no PantryIngredients then animate to empty view (only if needed)
+                if (canRecipes.getItemCount() == 0 && canMakeViewSwitcher.getCurrentView() !=
+                        view.findViewById(R.id.recipe_home_make_now_recycler_view)) {
+                    canMakeViewSwitcher.showPrevious();
+                }
+                if (canRecipes.getItemCount() != 0 && canMakeViewSwitcher.getCurrentView() ==
+                        view.findViewById(R.id.recipe_home_make_now_recycler_view)) {
+                    canMakeViewSwitcher.showNext();
+                }
+            }
+        });
+
+        couldRecipes.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                // If no PantryIngredients then animate to empty view (only if needed)
+                if (couldRecipes.getItemCount() == 0 && couldMakeViewSwitcher.getCurrentView() !=
+                        view.findViewById(R.id.recipe_home_could_make_recycler_view)) {
+                    couldMakeViewSwitcher.showPrevious();
+                }
+                if (couldRecipes.getItemCount() != 0 && couldMakeViewSwitcher.getCurrentView() ==
+                        view.findViewById(R.id.recipe_home_could_make_recycler_view)) {
+                    couldMakeViewSwitcher.showNext();
+                }
+            }
+        });
 
         return view;
     }

@@ -8,7 +8,8 @@ public class CustomIconsModule implements IconFontDescriptor {
     public enum CustomIcons implements Icon {
         grocery_check('\ue900'),
         pantry_add('\ue901'),
-        pantry_check('\ue902');
+        pantry_check('\ue902'),
+        stop_watch('\ue952');
 
         char character;
         CustomIcons(char character) {
