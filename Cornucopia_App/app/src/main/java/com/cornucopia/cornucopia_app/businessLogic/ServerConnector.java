@@ -105,14 +105,14 @@ public class ServerConnector {
         queue.add(request);
     }
 
-    public void getRecipes(String recipeEndpoint, final List<Recipe> results,
+    public void getRecipes(final String recipeEndpoint, final List<Recipe> results,
                            final RecipeCardRecyclerViewAdaptor adaptor) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 URL + "recipe/suggest/" + recipeEndpoint, new JSONArray(), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
-                    Log.d("VOLLEY", "Got response: " + response);
+                    Log.d("VOLLEY", "Got response for " + recipeEndpoint + ": " + response);
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject recipe;
                         recipe = response.getJSONObject(i);

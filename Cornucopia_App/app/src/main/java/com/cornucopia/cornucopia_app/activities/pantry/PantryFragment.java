@@ -11,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.activities.MainActivity;
 import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
 import com.cornucopia.cornucopia_app.businessLogic.ExpirationDateEstimator;
 import com.cornucopia.cornucopia_app.businessLogic.ServerConnector;
@@ -103,6 +105,18 @@ public class PantryFragment extends Fragment {
 
         // Data source
         RealmResults<PantryIngredient> pantryIngredients = Realm.getDefaultInstance().where(PantryIngredient.class).findAllAsync();
+        pantryIngredients.addChangeListener(new RealmChangeListener<RealmResults<PantryIngredient>>() {
+            @Override
+            public void onChange(RealmResults<PantryIngredient> element) {
+                Log.d("REALM ELEMENT", element.toString());
+                ((MainActivity) getActivity()).updateExpired(
+                        Realm.getDefaultInstance().where(PantryIngredient.class)
+                        .greaterThan("expirationDate", Calendar.getInstance().getTime())
+                        .findAll()
+                        .size()
+                );
+            }
+        });
 
         // Respond to top action buttons
         Button addItem = (Button) view.findViewById(R.id.pantry_ingredient_list_action_button_add_items);
