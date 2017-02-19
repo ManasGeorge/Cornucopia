@@ -46,6 +46,7 @@ def can_make_recipes(request):
     # TODO(irapha): use ingredients in the POST request to filter and order
     # TODO(irapha): paginate
     data = list(map(model_to_dict, m.Recipe.objects.all()[:10]))
+    data = list() #todo remove later
     return JsonResponse(data, safe=False)
 
 def could_make_recipes(request):
