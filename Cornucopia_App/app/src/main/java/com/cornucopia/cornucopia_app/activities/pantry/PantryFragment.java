@@ -57,17 +57,10 @@ public class PantryFragment extends Fragment {
     private static String GROCERY_LIST_FRAGMENT_TAG = "GroceryList";
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Interface must be implemented by activities that contain this fragment
      */
     public interface OnPantryFragmentInteractionListener {
-        // TODO: Replace with necessary communication (if any)
+        void showRecipeScreen();
     }
 
     private OnPantryFragmentInteractionListener interactionListener;
@@ -125,6 +118,13 @@ public class PantryFragment extends Fragment {
             public void onClick(View v) {
                 LinearLayout newIngredient = (LinearLayout) view.findViewById(R.id.new_pantry_ingredient);
                 newIngredient.setVisibility(LinearLayout.VISIBLE);
+            }
+        });
+        Button recipeNav = (Button) view.findViewById(R.id.pantry_ingredient_list_action_button_make_now);
+        recipeNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interactionListener.showRecipeScreen();
             }
         });
 
