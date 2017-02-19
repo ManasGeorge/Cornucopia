@@ -19,10 +19,16 @@ import java.util.List;
 public class RecipeCardRecyclerViewAdaptor extends RecyclerView.Adapter<RecipeCardRecyclerViewAdaptor.RecipeViewHolder> {
     List<Recipe> recipes = new ArrayList<>();
     Context context;
+    String source;
 
     public RecipeCardRecyclerViewAdaptor(Context context, String source) {
         (new ServerConnector(context)).getRecipes(source, this.recipes, this);
+        this.source = source;
         this.context = context;
+    }
+
+    public void updateRecipes() {
+        (new ServerConnector(context)).getRecipes(source, this.recipes, this);
     }
 
     @Override
