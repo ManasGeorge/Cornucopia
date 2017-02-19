@@ -107,6 +107,7 @@ public class ServerConnector {
 
     public void getRecipes(final String recipeEndpoint, final List<Recipe> results,
                            final RecipeCardRecyclerViewAdaptor adaptor) {
+        results.clear();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 URL + "recipe/suggest/" + recipeEndpoint, new JSONArray(), new Response.Listener<JSONArray>() {
             @Override

@@ -111,7 +111,7 @@ public class PantryFragment extends Fragment {
                 Log.d("REALM ELEMENT", element.toString());
                 ((MainActivity) getActivity()).updateExpired(
                         Realm.getDefaultInstance().where(PantryIngredient.class)
-                        .greaterThan("expirationDate", Calendar.getInstance().getTime())
+                        .lessThan("expirationDate", Calendar.getInstance().getTime())
                         .findAll()
                         .size()
                 );
