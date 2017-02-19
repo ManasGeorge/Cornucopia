@@ -13,6 +13,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
+import com.cornucopia.cornucopia_app.activities.recipes.RecipeCardRecyclerViewAdaptor;
+import com.cornucopia.cornucopia_app.model.Recipe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class ServerConnector {
-    private final String url = "https://cornucopia-gt.herokuapp.com/api/";
+    private static final String URL = "https://cornucopia-gt.herokuapp.com/api/";
     private Context mContext;
     private RequestQueue queue;
 
@@ -42,10 +44,10 @@ public class ServerConnector {
         List<Map.Entry<Integer, String>> results = new ArrayList<>();
         RequestFuture<JSONArray> future = RequestFuture.newFuture();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                url + "ingredient/suggest/" + needle, new JSONArray(), future, future);
+                URL + "ingredient/suggest/" + needle, new JSONArray(), future, future);
         queue.add(request);
 
-        Log.d("Requesting", url + "ingredient/suggest/" + needle);
+        Log.d("Requesting", URL + "ingredient/suggest/" + needle);
         // Filtering happens on a worker thread anyways, so it's okay
         // to have Volley make a synchronous request and block.
         try {
@@ -75,9 +77,9 @@ public class ServerConnector {
     }
 
     public void setEstimatedDate(final int id, final TextView mDate, final boolean[] isEstimated) {
-        Log.d("Requesting", url + "ingredient/by_id/" + id);
+        Log.d("Requesting", URL + "ingredient/by_id/" + id);
         JsonRequest request = new JsonObjectRequest(Request.Method.GET,
-                url + "ingredient/by_id/" + id, null,
+                URL + "ingredient/by_id/" + id, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -101,5 +103,38 @@ public class ServerConnector {
                     }
                 });
         queue.add(request);
+    }
+
+    public void getRecipes(String recipeEndpoint, final List<Recipe> results,
+                           final RecipeCardRecyclerViewAdaptor adaptor) {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+                URL + "recipe/suggest/" + recipeEndpoint, new JSONArray(), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    Log.d("VOLLEY", "Got response: " + response);
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject recipe;
+                        recipe = response.getJSONObject(i);
+                        String recipeName = recipe.getString("name");
+                        String prepTime = recipe.getString("prep_time");
+                        results.add(new Recipe(recipeName, false, prepTime));
+                    }
+                    adaptor.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.d("JSON", "Couldn't parse string " + e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEY", "Failed getting recipes");
+            }
+        });
+
+        queue.add(request);
+        Log.d("Requesting", URL + "recipe/suggest/" + recipeEndpoint);
+        // Filtering happens on a worker thread anyways, so it's okay
+        // to have Volley make a synchronous request and block.
     }
 }
