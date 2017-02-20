@@ -54,6 +54,17 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
         mViewPager.getAdapter().notifyDataSetChanged();
     }
 
+    // PantryFragment.OnPantryFragmentInteractionListener
+
+    @Override
+    public void showRecipeScreen() {
+        mViewPager.setCurrentItem(RECIPE_IDX);
+    }
+
+    private static int PANTRY_IDX = 0;
+    private static int RECIPE_IDX = 1;
+    private static int SETTINGS_IDX = 2;
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -67,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            if (position == 0) {
+            if (position == PANTRY_IDX) {
                 return PantryFragment.newInstance();
-            } else if (position == 1) {
+            } else if (position == RECIPE_IDX) {
                 return RecipeFragment.newInstance();
-            } else if (position == 2) {
+            } else if (position == SETTINGS_IDX) {
                 return SettingsFragment.newInstance();
             }
             return new Fragment();

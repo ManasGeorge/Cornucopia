@@ -44,17 +44,10 @@ import static com.cornucopia.cornucopia_app.model.GroceryIngredient.newGroceryIn
  */
 public class GroceryFragment extends Fragment {
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Interface must be implemented by activities that contain this fragment
      */
     public interface OnGroceryFragmentInteractionListener {
-        // TODO: Replace with necessary communication (if any)
+        void showRecipeScreen();
     }
 
     private GroceryFragment.OnGroceryFragmentInteractionListener interactionListener;
@@ -106,6 +99,13 @@ public class GroceryFragment extends Fragment {
         });
         recyclerView.setAdapter(new GroceryIngredientRecyclerViewAdapter(getContext(), groceryIngredients));
 
+        // Recipe navigation
+        view.findViewById(R.id.grocery_ingredient_list_action_button_make_now).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interactionListener.showRecipeScreen();
+            }
+        });
 
         return view;
     }
