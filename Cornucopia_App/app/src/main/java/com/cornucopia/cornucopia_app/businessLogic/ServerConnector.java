@@ -1,9 +1,11 @@
 package com.cornucopia.cornucopia_app.businessLogic;
 
 import android.content.Context;
+import android.provider.Settings.Secure;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,20 +26,28 @@ import java.text.DateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class ServerConnector {
     private static final String URL = "https://cornucopia-gt.herokuapp.com/api/";
+    private static final String USER_TOKEN_KEY = "token";
+
     private Context mContext;
     private RequestQueue queue;
+
+    private static String mUserToken;
 
     public ServerConnector(Context context) {
         mContext = context;
         queue = Volley.newRequestQueue(mContext);
+        mUserToken = Secure.getString(mContext.getContentResolver(),
+                Secure.ANDROID_ID);
     }
 
     public List<Map.Entry<Integer, String>> findIngredients(String needle) {
@@ -137,6 +147,58 @@ public class ServerConnector {
                 Log.d("VOLLEY", "Failed getting recipes");
             }
         });
+
+        queue.add(request);
+        Log.d("Requesting", URL + "recipe/suggest/" + recipeEndpoint);
+        // Filtering happens on a worker thread anyways, so it's okay
+        // to have Volley make a synchronous request and block.
+    }
+
+//    Include headers for favorite recipes endpoint
+    public void getFavoriteRecipes(final String recipeEndpoint, final List<Recipe> results,
+                           final RecipeCardRecyclerViewAdaptor adaptor) {
+        results.clear();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+                URL + "recipe/suggest/" + recipeEndpoint, new JSONArray(), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    Log.d("VOLLEY", "Got response for " + recipeEndpoint + ": " + response);
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject recipe;
+                        recipe = response.getJSONObject(i);
+                        String recipeName = recipe.getString("name");
+                        int time = recipe.getInt("prep_time");
+                        String prepTime;
+                        if(time >= 60)
+                            prepTime = String.format("%02d:%02d hrs", time/60, time%60);
+                        else
+                            prepTime = time + " mins";
+                        results.add(new Recipe(recipeName, false, prepTime));
+                    }
+                    adaptor.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.d("JSON", "Couldn't parse string " + e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEY", "Failed getting recipes");
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap < String, String > headers = new HashMap<>();
+                headers.put(USER_TOKEN_KEY, mUserToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return super.getBodyContentType();
+            }
+        };
 
         queue.add(request);
         Log.d("Requesting", URL + "recipe/suggest/" + recipeEndpoint);
