@@ -118,7 +118,12 @@ public class ServerConnector {
                         JSONObject recipe;
                         recipe = response.getJSONObject(i);
                         String recipeName = recipe.getString("name");
-                        String prepTime = recipe.getString("prep_time");
+                        int time = recipe.getInt("prep_time");
+                        String prepTime;
+                        if(time >= 60)
+                            prepTime = String.format("%02d:%02d hrs", time/60, time%60);
+                        else
+                            prepTime = time + " mins";
                         results.add(new Recipe(recipeName, false, prepTime));
                     }
                     adaptor.notifyDataSetChanged();
