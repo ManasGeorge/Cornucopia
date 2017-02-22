@@ -46,7 +46,7 @@ def recipe_by_id(request, **kwargs):
             existing = m.Favorite.objects.filter(recipe=kwargs['id'],
                     user=request.META['HTTP_TOKEN']).values('deleted')
             recipe_dict['favorited'] = existing[0]['deleted']
-        except Favorite.DoesNotExist:
+        except m.Favorite.DoesNotExist:
             recipe_dict['favorited'] = False
     return JsonResponse(recipe_dict)
 
@@ -81,7 +81,7 @@ def favorite_recipe(request, **kwargs):
         # If already favorited in the past, mark as not deleted
         existing = m.Favorite.objects.filter(recipe=kwargs['id'],
                 user=request.META['HTTP_TOKEN']).update(deleted=False)
-    except Favorite.DoesNotExist:
+    except m.Favorite.DoesNotExist:
         # Never favorited before, create new record
         fav = m.Favorite(recipe=kwargs['id'],
                          user=request.META['HTTP_TOKEN'],
@@ -98,7 +98,7 @@ def unfavorite_recipe(request, **kwargs):
         # If already favorited in the past, mark as not deleted
         existing = m.Favorite.objects.filter(recipe=kwargs['id'],
                 user=request.META['HTTP_TOKEN']).update(deleted=True)
-    except Favorite.DoesNotExist:
+    except m.Favorite.DoesNotExist:
         return JsonResponse({ 'status': 'error', 'msg': 'favorite record not found' })
 
     return JsonResponse({ 'status': 'success' })
