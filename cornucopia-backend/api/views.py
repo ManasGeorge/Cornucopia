@@ -11,7 +11,6 @@ suggest = None
 
 # Create your views here.
 def index(request):
-    print request.META
     if not 'HTTP_TOKEN' in request.META:
         request.META['HTTP_TOKEN'] = 'none'
 
@@ -39,6 +38,16 @@ def recipe_by_id(request, **kwargs):
     recipe_dict['ingredients'] = list(map(model_to_dict, recipe.ingredient_set.all()))
     recipe_dict['instructions'] = list(map(model_to_dict, recipe.recipeinstruction_set.all()))
     recipe_dict['comments'] = list(map(model_to_dict, recipe.recipecomment_set.all()))
+
+    # if token received, also send whether recipe is favorited by user
+    if 'HTTP_TOKEN' in request.META:
+        try:
+            # If already favorited in the past, mark as not deleted
+            existing = m.Favorite.objects.filter(recipe=kwargs['id'],
+                    user=request.META['HTTP_TOKEN']).values('deleted')
+            recipe_dict['favorited'] = existing[0]['deleted']
+        except Favorite.DoesNotExist:
+            recipe_dict['favorited'] = False
     return JsonResponse(recipe_dict)
 
 def can_make_recipes(request):

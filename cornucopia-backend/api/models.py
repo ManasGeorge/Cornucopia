@@ -42,7 +42,7 @@ class Recipe(models.Model):
     source = models.CharField(max_length=512) # url
 
 class Favorite(models.Model):
-    recipe models.ForeignKey('Recipe')
-    user = models.CharField(max_length=256, db_index=True)
+    recipe = models.ForeignKey('Recipe', db_index=True)
+    user = models.CharField(max_length=256)
     deleted = models.BooleanField(default=False)
 
