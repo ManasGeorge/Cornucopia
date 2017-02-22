@@ -62,3 +62,34 @@ def browse_recipes(request):
     # TODO(irapha): paginate
     data = list(map(model_to_dict, m.Recipe.objects.all()[:10]))
     return JsonResponse(data, safe=False)
+
+def favorite_recipe(request, **kwargs):
+    """Marks a recipe as a favorite for a user."""
+    if not 'HTTP_TOKEN' in request.META:
+        return JsonResponse({ 'status': 'error', 'msg': 'user token not found' })
+
+    try:
+        # If already favorited in the past, mark as not deleted
+        existing = m.Favorite.objects.filter(recipe=kwargs['id'],
+                user=request.META['HTTP_TOKEN']).update(deleted=False)
+    except Favorite.DoesNotExist:
+        # Never favorited before, create new record
+        fav = m.Favorite(recipe=kwargs['id'],
+                         user=request.META['HTTP_TOKEN'],
+                         deleted=False).save()
+
+    return JsonResponse({ 'status': 'success' })
+
+def unfavorite_recipe(request, **kwargs):
+    """Unmarks a recipe as a favorite for a user."""
+    if not 'HTTP_TOKEN' in request.META:
+        return JsonResponse({ 'status': 'error', 'msg': 'user token not found' })
+
+    try:
+        # If already favorited in the past, mark as not deleted
+        existing = m.Favorite.objects.filter(recipe=kwargs['id'],
+                user=request.META['HTTP_TOKEN']).update(deleted=True)
+    except Favorite.DoesNotExist:
+        return JsonResponse({ 'status': 'error', 'msg': 'favorite record not found' })
+
+    return JsonResponse({ 'status': 'success' })
