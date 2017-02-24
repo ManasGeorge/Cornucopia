@@ -11,7 +11,6 @@ suggest = None
 
 # Create your views here.
 def index(request):
-    print request.META
     if not 'HTTP_TOKEN' in request.META:
         request.META['HTTP_TOKEN'] = 'none'
 
@@ -39,6 +38,16 @@ def recipe_by_id(request, **kwargs):
     recipe_dict['ingredients'] = list(map(model_to_dict, recipe.ingredient_set.all()))
     recipe_dict['instructions'] = list(map(model_to_dict, recipe.recipeinstruction_set.all()))
     recipe_dict['comments'] = list(map(model_to_dict, recipe.recipecomment_set.all()))
+
+    # if token received, also send whether recipe is favorited by user
+    if 'HTTP_TOKEN' in request.META:
+        try:
+            # If already favorited in the past, mark as not deleted
+            existing = m.Favorite.objects.filter(recipe=kwargs['id'],
+                    user=request.META['HTTP_TOKEN']).values('deleted')
+            recipe_dict['favorited'] = existing[0]['deleted']
+        except m.Favorite.DoesNotExist:
+            recipe_dict['favorited'] = False
     return JsonResponse(recipe_dict)
 
 def can_make_recipes(request):
@@ -62,3 +71,34 @@ def browse_recipes(request):
     # TODO(irapha): paginate
     data = list(map(model_to_dict, m.Recipe.objects.all()[:10]))
     return JsonResponse(data, safe=False)
+
+def favorite_recipe(request, **kwargs):
+    """Marks a recipe as a favorite for a user."""
+    if not 'HTTP_TOKEN' in request.META:
+        return JsonResponse({ 'status': 'error', 'msg': 'user token not found' })
+
+    try:
+        # If already favorited in the past, mark as not deleted
+        existing = m.Favorite.objects.filter(recipe=kwargs['id'],
+                user=request.META['HTTP_TOKEN']).update(deleted=False)
+    except m.Favorite.DoesNotExist:
+        # Never favorited before, create new record
+        fav = m.Favorite(recipe=kwargs['id'],
+                         user=request.META['HTTP_TOKEN'],
+                         deleted=False).save()
+
+    return JsonResponse({ 'status': 'success' })
+
+def unfavorite_recipe(request, **kwargs):
+    """Unmarks a recipe as a favorite for a user."""
+    if not 'HTTP_TOKEN' in request.META:
+        return JsonResponse({ 'status': 'error', 'msg': 'user token not found' })
+
+    try:
+        # If already favorited in the past, mark as not deleted
+        existing = m.Favorite.objects.filter(recipe=kwargs['id'],
+                user=request.META['HTTP_TOKEN']).update(deleted=True)
+    except m.Favorite.DoesNotExist:
+        return JsonResponse({ 'status': 'error', 'msg': 'favorite record not found' })
+
+    return JsonResponse({ 'status': 'success' })

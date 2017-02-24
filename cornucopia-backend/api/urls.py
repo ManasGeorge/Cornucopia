@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^recipe/suggest/can_make/$', views.can_make_recipes, name='can_make_recipes'),
     url(r'^recipe/suggest/could_make/$', views.could_make_recipes, name='could_make_recipes'),
     url(r'^recipe/suggest/browse/$', views.browse_recipes, name='browse_recipes'),
+    url(r'^recipe/by_id/(?P<id>[0-9]+)/favorite$', views.favorite_recipe, name='favorite_recipe'),
+    url(r'^recipe/by_id/(?P<id>[0-9]+)/unfavorite$', views.unfavorite_recipe, name='unfavorite_recipe'),
 ]

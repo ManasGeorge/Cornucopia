@@ -41,3 +41,8 @@ class Recipe(models.Model):
     prep_time = models.IntegerField() # in minutes
     source = models.CharField(max_length=512) # url
 
+class Favorite(models.Model):
+    recipe = models.ForeignKey('Recipe', db_index=True)
+    user = models.CharField(max_length=256)
+    deleted = models.BooleanField(default=False)
+
