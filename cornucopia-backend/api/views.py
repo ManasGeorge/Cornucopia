@@ -6,10 +6,12 @@ from django.shortcuts import render
 
 import api.models as m
 from api.utils import initialize_suggestions
+from api.utils import initialize_search
 from api.utils import initialize_recipe_suggestions
 
 suggest = None
 suggest_recipes = None
+search = None
 
 # Create your views here.
 def index(request):
@@ -25,6 +27,15 @@ def suggest_ingredient(request, **kwargs):
         suggest = initialize_suggestions()
     prefix = kwargs['prefix']
     data = suggest(prefix)
+    return JsonResponse(data, safe=False)
+
+def search_recipes(request, **kwargs):
+    """Returns a list of suggested recipe ids, based on a query string"""
+    global search
+    if search is None:
+        search = initialize_search()
+    prefix = kwargs['prefix']
+    data = search(prefix)
     return JsonResponse(data, safe=False)
 
 def ingredient_by_id(request, **kwargs):
