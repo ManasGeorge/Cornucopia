@@ -51,3 +51,7 @@ class SuggestionTree(object):
 def initialize_suggestions():
     data = IngredientType.objects.values_list('name', 'pk')
     return SuggestionTree(data, ratcliff_obershelp)
+
+def initialize_search():
+    data = Recipe.objects.values_list('name', 'pk')
+    return SuggestionTree(data, ratcliff_obershelp)
