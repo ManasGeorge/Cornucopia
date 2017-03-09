@@ -1,8 +1,14 @@
+from django.forms.models import model_to_dict
+from api.models import Recipe
+from pint import UnitRegistry
+from pint.errors import DimensionalityError
 
+u = UnitRegistry()
 # will first receive a bunch of recipes
 # [
 #  (recipe_id, [(ingredient_type, quantity_ml), (ingredient_type, quantity_ml)])
 # ]
+# and save them so no more db querying is needed
 
 # given ingredients:
 # [(ingredient_type, quantity_ml), (ingredient_type, quantity_ml)]
@@ -17,7 +23,10 @@ class RecipeSuggester(object):
         can_make_recipes = []
         could_make_recipes = []
 
-        user_ingredient_types, user_ingredient_quant = zip(*user_ingredients)
+        if len(user_ingredients) > 0:
+            user_ingredient_types, user_ingredient_quant = zip(*user_ingredients)
+        else:
+            user_ingredient_types, user_ingredient_quant = [], []
 
         for recipe_id, ingredients in self.recipes:
             can_make = True
@@ -28,7 +37,7 @@ class RecipeSuggester(object):
                 if ingredient_type not in user_ingredient_types:
                     can_make = False
                     extra_items_count += 1
-                    if extra_items_count > self.num_extra_items:
+                    if extra_items_count > num_extra_items:
                         could_make = False
                         break
                     continue
@@ -39,32 +48,41 @@ class RecipeSuggester(object):
                 if user_quantity < quantity:
                     can_make = False
                     extra_items_count += 1
-                    if extra_items_count > self.num_extra_items:
+                    if extra_items_count > num_extra_items:
                         could_make = False
                         break
                     continue
 
             if can_make:
                 can_make_recipes.append(recipe_id)
+                # we dont want duplicates :)
+                could_make = False
 
             if could_make:
                 could_make_recipes.append(recipe_id)
 
         return can_make_recipes, could_make_recipes
 
+def convert_quantity(ingredient):
+    quant = ingredient.quantity * getattr(u, ingredient.measure)
+    # convert to ml
+    try:
+        quant = quant.to(u.ml)
+    except DimensionalityError:
+        # it was weight. convert to volume
+        density = ingredient.ingredient_type.density * (u.g / u.ml)
+        quant = quant / density
+        quant = quant.to(u.ml)
+    return quant.magnitude
 
-def initialize_suggesters():
-    recipes = [
-            (1, [(1, 20), (2, 10), (3, 5.5)]), # no, quantities are over
-            (2, [(4, 20), (2, 10), (3, 0.3)]), # no, user doesnt have 4
-            (3, [(2, 10), (3, 3)]), # no, user doesnt have enough of 3
-            (4, [(4, 10), (5, 3)]), # no, user doesnt have ANY ingredients
-            (5, [(1, 8), (2, 10), (3, 0.1)]), # true
-            (6, [(1, 0.5), (2, 5)]), # true
-            ]
-    user_ingredients = [(1, 10), (2, 10), (3, 0.5)]
-    sug = RecipeSuggester(recipes)
-    print(sug(user_ingredients, 1))
-    # return RecipeSuggester(recipes)
+def initialize_suggestions():
+    data = Recipe.objects.all()
+    recipes = []
+    for recipe in data:
+        ingredients = []
+        for ing in recipe.ingredient_set.all():
+            ingredients.append((ing.ingredient_type.pk, convert_quantity(ing)))
+        recipes.append((recipe.pk, ingredients))
 
-if __name__ == '__main__': initialize_suggesters()
+    return RecipeSuggester(recipes)
+

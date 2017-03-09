@@ -1,3 +1,4 @@
+import json
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http import HttpResponse
@@ -5,9 +6,10 @@ from django.shortcuts import render
 
 import api.models as m
 from api.utils import initialize_suggestions
-
+from api.utils import initialize_recipe_suggestions
 
 suggest = None
+suggest_recipes = None
 
 # Create your views here.
 def index(request):
@@ -52,18 +54,25 @@ def recipe_by_id(request, **kwargs):
 
 def can_make_recipes(request):
     """Returns recipes the user can make, given their ingredients"""
-    # TODO(irapha): use ingredients in the POST request to filter and order
-    # TODO(irapha): paginate
-    data = list(map(model_to_dict, m.Recipe.objects.all()[:10]))
-    data = list() #todo remove later
-    return JsonResponse(data, safe=False)
+    global suggest_recipes
+    if suggest_recipes is None:
+        suggest_recipes = initialize_recipe_suggestions()
+    if 'ingredients' not in request.POST:
+        return JsonResponse({ 'status': 'error', 'msg': 'no ingredients received in POST' })
+    ingredients = json.loads(request.POST['ingredients'])
+    can_make, _ = suggest_recipes(ingredients, 3)
+    return JsonResponse(can_make, safe=False)
 
 def could_make_recipes(request):
     """Returns recipes the user could make, with their ingredients plus a few"""
-    # TODO(irapha): use ingredients in the POST request to filter and order
-    # TODO(irapha): paginate
-    data = list(map(model_to_dict, m.Recipe.objects.all()[:10]))
-    return JsonResponse(data, safe=False)
+    global suggest_recipes
+    if suggest_recipes is None:
+        suggest_recipes = initialize_recipe_suggestions()
+    if 'ingredients' not in request.POST:
+        return JsonResponse({ 'status': 'error', 'msg': 'no ingredients received in POST' })
+    ingredients = json.loads(request.POST['ingredients'])
+    _, could_make = suggest_recipes(ingredients, 3)
+    return JsonResponse(could_make, safe=False)
 
 def browse_recipes(request):
     """Returns recipes recommended to the user given their id"""

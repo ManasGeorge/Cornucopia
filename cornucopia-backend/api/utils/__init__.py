@@ -1,1 +1,2 @@
 from api.utils.suggestions import initialize_suggestions
+from api.utils.csp import initialize_suggestions as initialize_recipe_suggestions
