@@ -54,24 +54,28 @@ def recipe_by_id(request, **kwargs):
 
 def can_make_recipes(request):
     """Returns recipes the user can make, given their ingredients"""
+    if not 'HTTP_TOKEN' in request.META:
+        return JsonResponse({ 'status': 'error', 'msg': 'user token not found' })
     global suggest_recipes
     if suggest_recipes is None:
         suggest_recipes = initialize_recipe_suggestions()
     if 'ingredients' not in request.POST:
         return JsonResponse({ 'status': 'error', 'msg': 'no ingredients received in POST' })
     ingredients = json.loads(request.POST['ingredients'])
-    can_make, _ = suggest_recipes(ingredients, 3)
+    can_make, _ = suggest_recipes(request.META['HTTP_TOKEN'], ingredients, 3)
     return JsonResponse(can_make, safe=False)
 
 def could_make_recipes(request):
     """Returns recipes the user could make, with their ingredients plus a few"""
+    if not 'HTTP_TOKEN' in request.META:
+        return JsonResponse({ 'status': 'error', 'msg': 'user token not found' })
     global suggest_recipes
     if suggest_recipes is None:
         suggest_recipes = initialize_recipe_suggestions()
     if 'ingredients' not in request.POST:
         return JsonResponse({ 'status': 'error', 'msg': 'no ingredients received in POST' })
     ingredients = json.loads(request.POST['ingredients'])
-    _, could_make = suggest_recipes(ingredients, 3)
+    _, could_make = suggest_recipes(request.META['HTTP_TOKEN'], ingredients, 3)
     return JsonResponse(could_make, safe=False)
 
 def browse_recipes(request):
