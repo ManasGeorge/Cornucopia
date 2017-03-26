@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.print.PrintAttributes;
 import android.print.pdf.PrintedPdfDocument;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +104,6 @@ public class GroceryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PrintAttributes printAttributes = new PrintAttributes.Builder()
-                        // These parameters aren't important but have to be set to something
                         .setMediaSize(PrintAttributes.MediaSize.ISO_A0)
                         .setMinMargins(new PrintAttributes.Margins(1000, 1000, 1000, 1000))
                         .build();
@@ -112,12 +113,27 @@ public class GroceryFragment extends Fragment {
 
                 document.finishPage(page);
 
-                File outputDir = getContext().getCacheDir();
+                File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "grocery_pdfs");
+                String myDir = f.getAbsolutePath();
+
+                if (!f.exists()) Log.d("MAKE DIR", f.mkdir() + "");
+
+                File outputFile = new File(myDir, "GroceryList.pdf");
                 try {
-                    File outputFile = File.createTempFile("GroceryList", "pdf", outputDir);
+
+                    if (outputFile.exists()) {
+                        outputFile.delete();
+                        outputFile.createNewFile();
+                    }
+
                     try (OutputStream outputStream = new FileOutputStream(outputFile)) {
                         document.writeTo(outputStream);
+                        outputStream.flush();
+                        outputStream.close();
                     }
+
+                    document.close();
+
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.fromFile(outputFile), "application/pdf");
                     startActivity(Intent.createChooser(intent, "Export grocery list"));
