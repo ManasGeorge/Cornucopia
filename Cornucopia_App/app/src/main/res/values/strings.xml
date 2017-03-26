@@ -26,6 +26,14 @@
     <string name="what_you_could_make_description">Recipes that only require a few extra items</string>
     <string name="browse_recipes_description">Recommended recipes based on your favorites</string>
 
+    <!-- Recipes Browse Detailed -->
+    <string name="recipe_fragment_browse_title">BROWSE RECIPES</string>
+    <string name="recipe_fragment_browse_description">recommended based on your favorites</string>
+    <string name="recipe_fragment_can_make_title">WHAT YOU CAN MAKE NOW</string>
+    <string name="recipe_fragment_can_make_description">based on items currently in your pantry</string>
+    <string name="recipe_fragment_could_make_title">WHAT YOU COULD MAKE</string>
+    <string name="recipe_fragment_could_make_description">with only a few extra items</string>
+
     <!-- Grocery -->
     <string name="enter_ingredient_name">Enter Ingredient Name</string>
     <string name="grocery_export_pdf_button_text">{fa-share-alt} Export PDF</string>
@@ -41,4 +49,5 @@
     <string name="grocery_ingredient_list_show_grocery_list_text">(this is probably a mistake)</string>
     <string name="grocery_list_add_item_text">{fa-cart-plus} Add Item</string>
     <string name="cancel">Cancel</string>
+
 </resources>

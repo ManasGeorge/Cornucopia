@@ -1,12 +1,8 @@
 package com.cornucopia.cornucopia_app.model;
 
-import io.realm.annotations.Required;
-
 public class Recipe {
-    @Required
     private String recipeName;
     private boolean isFavorited;
-    @Required
     private String prepTime;
 
     public Recipe(String recipeName, boolean isFavorited, String prepTime) {
