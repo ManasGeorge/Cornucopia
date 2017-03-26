@@ -4,7 +4,7 @@
     <string name="add">Add</string>
 
     <!-- Pantry List -->
-    <string name="pantry_add_items_button_text">Add items</string>
+    <string name="pantry_add_items_button_text">{pantry-add} Add Items</string>
     <string name="pantry_what_you_can_make_now_button_text">What you can make now</string>
 
     <!-- Pantry -->
@@ -12,23 +12,33 @@
     <string name="pantry_expiration_date_title">Exp Date</string>
     <string name="pantry_quantity_title">Quantity</string>
 
-    <string name="pantry_move_to_grocery_list_button_text">Move to grocery list</string>
-    <string name="pantry_remove_button_text">Remove</string>
-    <string name="empty_pantry_message">Tap Add items to insert food into your pantry</string>
-    <string name="pantry_ingredient_list_show_grocery_list_text">Grocery List</string>
+    <string name="pantry_move_to_grocery_list_button_text">{fa-cart-plus} Move to grocery list</string>
+    <string name="pantry_remove_button_text">{fa-trash} Remove</string>
+    <string name="empty_pantry_message">Tap {pantry-add} to insert food into your pantry</string>
+    <string name="pantry_ingredient_list_show_grocery_list_text">{fa-shopping-cart} Grocery List</string>
+
+    <!-- Recipes -->
+    <string name="recipes_home_show_favorites_text">{fa-heart} Favorites</string>
+    <string name="recipe_home_make_now_button_text">What you can make now</string>
+    <string name="recipe_home_could_make_button_text">What you could make</string>
+    <string name="recipe_home_browse_button_text">Browse Recipes</string>
+    <string name="what_you_can_make_description">Recipes you can make with items from your pantry</string>
+    <string name="what_you_could_make_description">Recipes that only require a few extra items</string>
+    <string name="browse_recipes_description">Recommended recipes based on your favorites</string>
 
     <!-- Grocery -->
-    <string name="grocery_export_pdf_button_text">Export PDF</string>
+    <string name="enter_ingredient_name">Enter Ingredient Name</string>
+    <string name="grocery_export_pdf_button_text">{fa-share-alt} Export PDF</string>
     <string name="grocery_what_you_could_make_now_button_text">What you could make now</string>
 
     <string name="grocery_estimated_expiration_date_title">Est. Exp Date</string>
     <string name="grocery_expiration_date_title">Exp Date</string>
     <string name="grocery_quantity_title">Quantity</string>
 
-    <string name="grocery_move_to_pantry_button_text">Move to pantry</string>
-    <string name="grocery_remove_button_text">Remove</string>
-    <string name="empty_grocery_message">Tap Add items to insert food into your grocery</string>
+    <string name="grocery_move_to_pantry_button_text">{pantry-add} Move to pantry</string>
+    <string name="grocery_remove_button_text">{fa-trash} Remove</string>
+    <string name="empty_grocery_message">Tap {fa-cart-plus} to insert food into your grocery</string>
     <string name="grocery_ingredient_list_show_grocery_list_text">(this is probably a mistake)</string>
-    <string name="grocery_list_add_item_text">Add item</string>
-
+    <string name="grocery_list_add_item_text">{fa-cart-plus} Add Item</string>
+    <string name="cancel">Cancel</string>
 </resources>

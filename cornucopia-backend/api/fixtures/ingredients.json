@@ -1,0 +1,32 @@
+[
+    {
+        "model": "api.Ingredient",
+        "pk": 1,
+        "fields": {
+            "ingredient_type": 22,
+            "quantity": 2.0,
+            "measure": "tablespoon",
+            "recipe": 1
+        }
+    },
+    {
+        "model": "api.Ingredient",
+        "pk": 2,
+        "fields": {
+            "ingredient_type": 23,
+            "quantity": 350.0,
+            "measure": "milliliters",
+            "recipe": 1
+        }
+    },
+    {
+        "model": "api.Ingredient",
+        "pk": 3,
+        "fields": {
+            "ingredient_type": 24,
+            "quantity": 4.0,
+            "measure": "tablespoon",
+            "recipe": 1
+        }
+    }
+]

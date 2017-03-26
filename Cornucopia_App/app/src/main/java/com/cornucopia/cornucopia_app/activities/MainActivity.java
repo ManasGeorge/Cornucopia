@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.cornucopia.cornucopia_app.R;
 import com.cornucopia.cornucopia_app.activities.grocery.GroceryFragment;
 import com.cornucopia.cornucopia_app.activities.pantry.PantryFragment;
+import com.cornucopia.cornucopia_app.activities.recipes.RecipeFragment;
+import com.cornucopia.cornucopia_app.activities.settings.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity implements PantryFragment.OnPantryFragmentInteractionListener, GroceryFragment.OnGroceryFragmentInteractionListener {
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private int numExpired = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,22 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
         tabLayout.setupWithViewPager(mViewPager);
     }
 
+    public void updateExpired(int newExpired) {
+        numExpired = newExpired;
+        mViewPager.getAdapter().notifyDataSetChanged();
+    }
+
+    // PantryFragment.OnPantryFragmentInteractionListener
+
+    @Override
+    public void showRecipeScreen() {
+        mViewPager.setCurrentItem(RECIPE_IDX);
+    }
+
+    private static int PANTRY_IDX = 0;
+    private static int RECIPE_IDX = 1;
+    private static int SETTINGS_IDX = 2;
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -59,8 +78,12 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            if (position == 0) {
+            if (position == PANTRY_IDX) {
                 return PantryFragment.newInstance();
+            } else if (position == RECIPE_IDX) {
+                return RecipeFragment.newInstance();
+            } else if (position == SETTINGS_IDX) {
+                return SettingsFragment.newInstance();
             }
             return new Fragment();
         }
@@ -75,11 +98,16 @@ public class MainActivity extends AppCompatActivity implements PantryFragment.On
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Pantry";
+                    if(numExpired == 0)
+                        return "Pantry";
+                    else if(numExpired > 10)
+                        return "Pantry (10+)";
+                    else
+                        return "Pantry ("+ numExpired +")";
                 case 1:
-                    return "TODO";
+                    return "Recipes";
                 case 2:
-                    return "TODO";
+                    return "Settings";
             }
             return null;
         }

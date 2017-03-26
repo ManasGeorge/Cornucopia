@@ -1,0 +1,52 @@
+[
+    {
+        "model": "api.Recipe",
+        "pk": 1,
+        "fields": {
+            "name": "Brigadeiro",
+            "image": "",
+            "prep_time": 15,
+            "source": ""
+        }
+    },
+    {
+        "model": "api.Recipe",
+        "pk": 2,
+        "fields": {
+            "name": "Mac & Cheese",
+            "image": "",
+            "prep_time": 20,
+            "source": ""
+        }
+    },
+    {
+        "model": "api.Recipe",
+        "pk": 3,
+        "fields": {
+            "name": "Potato Salad",
+            "image": "",
+            "prep_time": 25,
+            "source": ""
+        }
+    },
+    {
+        "model": "api.Recipe",
+        "pk": 4,
+        "fields": {
+            "name": "Egg Salad",
+            "image": "",
+            "prep_time": 25,
+            "source": ""
+        }
+    },
+    {
+        "model": "api.Recipe",
+        "pk": 5,
+        "fields": {
+            "name": "Cookies",
+            "image": "",
+            "prep_time": 60,
+            "source": ""
+        }
+    }
+]

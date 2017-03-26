@@ -2,8 +2,11 @@ package com.cornucopia.cornucopia_app;
 
 import android.app.Application;
 
+import com.cornucopia.cornucopia_app.businessLogic.CustomIconsModule;
 import com.cornucopia.cornucopia_app.model.GroceryIngredient;
 import com.cornucopia.cornucopia_app.model.PantryIngredient;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 import java.util.Date;
 
@@ -15,6 +18,7 @@ import io.realm.RealmConfiguration;
  */
 public class MyApplication extends Application {
     @Override
+
     public void onCreate() {
         super.onCreate();
 
@@ -48,5 +52,7 @@ public class MyApplication extends Application {
                 .build();
         Realm.deleteRealm(realmConfig); // Delete Realm between app restarts (testing only)
         Realm.setDefaultConfiguration(realmConfig);
+
+        Iconify.with(new FontAwesomeModule()).with(new CustomIconsModule());
     }
 }

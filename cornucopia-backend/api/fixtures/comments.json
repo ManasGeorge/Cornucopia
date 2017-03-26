@@ -1,0 +1,12 @@
+[
+    {
+        "model": "api.RecipeComment",
+        "pk": 1,
+        "fields": {
+            "recipe": 1,
+            "text": "Amazing recipe!",
+            "user": "raphael",
+            "number": 1
+        }
+    }
+]

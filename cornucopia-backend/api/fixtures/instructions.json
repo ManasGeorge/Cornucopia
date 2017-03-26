@@ -1,0 +1,38 @@
+[
+    {
+        "model": "api.RecipeInstruction",
+        "pk": 1,
+        "fields": {
+            "recipe": 1,
+            "text": "Pour all ingredients in a pot in medium-high heat",
+            "number": 1
+        }
+    },
+    {
+        "model": "api.RecipeInstruction",
+        "pk": 2,
+        "fields": {
+            "recipe": 1,
+            "text": "Mix well constantly until it stops sticking to the pan",
+            "number": 2
+        }
+    },
+    {
+        "model": "api.RecipeInstruction",
+        "pk": 3,
+        "fields": {
+            "recipe": 1,
+            "text": "Bring heat to low and mix for 2 more minutes",
+            "number": 3
+        }
+    },
+    {
+        "model": "api.RecipeInstruction",
+        "pk": 4,
+        "fields": {
+            "recipe": 1,
+            "text": "Pour in a bowl and serve after it cools off",
+            "number": 4
+        }
+    }
+]

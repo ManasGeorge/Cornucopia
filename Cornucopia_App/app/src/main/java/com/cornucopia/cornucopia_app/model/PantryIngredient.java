@@ -16,7 +16,9 @@ public class PantryIngredient extends RealmObject {
     @Required
     private String quantity;
 
-    public static PantryIngredient newPantryIngredient(Realm realm, String ingredientName, Date expirationDate, boolean isExpirationEstimated, String quantity) {
+    public static PantryIngredient newPantryIngredient(Realm realm, String ingredientName,
+                                                       Date expirationDate,
+                                                       boolean isExpirationEstimated, String quantity) {
         PantryIngredient newIngredient = realm.createObject(PantryIngredient.class);
         newIngredient.setIngredientName(ingredientName);
         newIngredient.setExpirationDate(expirationDate);
