@@ -20,9 +20,18 @@ public class RecipeCardRecyclerViewAdaptor extends RecyclerView.Adapter<RecipeCa
     List<Recipe> recipes = new ArrayList<>();
     Context context;
     String source;
+    boolean isExpanded;
 
     public RecipeCardRecyclerViewAdaptor(Context context, String source) {
         (new ServerConnector(context)).getRecipes(source, this.recipes, this);
+        this.isExpanded = false;
+        this.source = source;
+        this.context = context;
+    }
+
+    public RecipeCardRecyclerViewAdaptor(Context context, String source, boolean isExpanded) {
+        (new ServerConnector(context)).getRecipes(source, this.recipes, this);
+        this.isExpanded = isExpanded;
         this.source = source;
         this.context = context;
     }
@@ -33,8 +42,13 @@ public class RecipeCardRecyclerViewAdaptor extends RecyclerView.Adapter<RecipeCa
 
     @Override
     public RecipeCardRecyclerViewAdaptor.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recipe_ingredient_card_small, parent, false);
+        View view;
+        if(isExpanded)
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recipe_ingredient_card_large, parent, false);
+        else
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recipe_ingredient_card_small, parent, false);
         return new RecipeCardRecyclerViewAdaptor.RecipeViewHolder(view);
     }
 

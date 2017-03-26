@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
 
 public class RecipeFragment extends Fragment {
+    public static final String BROWSE_RECIPES_FRAGMENT_TAG = "BrowseRecipes";
 
     RecipeCardRecyclerViewAdaptor canRecipes;
     RecipeCardRecyclerViewAdaptor couldRecipes;
@@ -36,6 +38,7 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_recipes_home, container, false);
+
         this.canRecipes = new RecipeCardRecyclerViewAdaptor(getContext(), "can_make");
         this.couldRecipes = new RecipeCardRecyclerViewAdaptor(getContext(), "could_make");
         this.browse = new RecipeCardRecyclerViewAdaptor(getContext(), "browse");
@@ -85,6 +88,51 @@ public class RecipeFragment extends Fragment {
             }
         });
 
+        Button couldMake = (Button) view.findViewById(R.id.recipe_home_action_button_could_make);
+        Button canMake = (Button) view.findViewById(R.id.recipe_home_action_button_make_now);
+        Button browseRecipes = (Button) view.findViewById(R.id.recipe_home_action_button_browse);
+
+        browseRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeBrowseFragment recipeFragment =
+                        RecipeBrowseFragment.newInstance("browse");
+                Log.d("NUM FRAGS", String.valueOf(getFragmentManager().getFragments().size()));
+                getFragmentManager().beginTransaction()
+                        .addToBackStack(BROWSE_RECIPES_FRAGMENT_TAG)
+                        .add(R.id.recipe_home_container, recipeFragment,
+                                BROWSE_RECIPES_FRAGMENT_TAG)
+                        .commit();
+            }
+        });
+
+        couldMake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeBrowseFragment recipeFragment =
+                        RecipeBrowseFragment.newInstance("could_make");
+                Log.d("NUM FRAGS", String.valueOf(getFragmentManager().getFragments().size()));
+                getFragmentManager().beginTransaction()
+                        .addToBackStack(BROWSE_RECIPES_FRAGMENT_TAG)
+                        .add(R.id.recipe_home_container, recipeFragment,
+                                BROWSE_RECIPES_FRAGMENT_TAG)
+                        .commit();
+            }
+        });
+
+        canMake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeBrowseFragment recipeFragment =
+                        RecipeBrowseFragment.newInstance("can_make");
+                Log.d("NUM FRAGS", String.valueOf(getFragmentManager().getFragments().size()));
+                getFragmentManager().beginTransaction()
+                        .addToBackStack(BROWSE_RECIPES_FRAGMENT_TAG)
+                        .add(R.id.recipe_home_container, recipeFragment,
+                                BROWSE_RECIPES_FRAGMENT_TAG)
+                        .commit();
+            }
+        });
         return view;
     }
 }

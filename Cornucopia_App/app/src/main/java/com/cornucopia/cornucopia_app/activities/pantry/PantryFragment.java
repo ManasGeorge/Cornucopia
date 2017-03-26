@@ -196,7 +196,9 @@ public class PantryFragment extends Fragment {
         } else {
             GroceryFragment groceryFragment = GroceryFragment.newInstance();
             getChildFragmentManager().beginTransaction()
-                    .add(R.id.pantry_ingredient_grocery_list_container, groceryFragment, GROCERY_LIST_FRAGMENT_TAG)
+                    .add(R.id.pantry_ingredient_grocery_list_container, groceryFragment,
+                            GROCERY_LIST_FRAGMENT_TAG)
+                    .addToBackStack(GROCERY_LIST_FRAGMENT_TAG)
                     .commit();
 
             adjustPercentHeight(pantryContainer, EXPANDED_PANTRY_CONTAINER_HEIGHT_PERCENTAGE);
