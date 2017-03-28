@@ -16,20 +16,20 @@ import com.joanzapata.iconify.widget.IconTextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeCardRecyclerViewAdaptor extends RecyclerView.Adapter<RecipeCardRecyclerViewAdaptor.RecipeViewHolder> {
+public class RecipeCardRecyclerViewAdapter extends RecyclerView.Adapter<RecipeCardRecyclerViewAdapter.RecipeViewHolder> {
     List<Recipe> recipes = new ArrayList<>();
     Context context;
     String source;
     boolean isExpanded;
 
-    public RecipeCardRecyclerViewAdaptor(Context context, String source) {
+    public RecipeCardRecyclerViewAdapter(Context context, String source) {
         (new ServerConnector(context)).getRecipes(source, this.recipes, this);
         this.isExpanded = false;
         this.source = source;
         this.context = context;
     }
 
-    public RecipeCardRecyclerViewAdaptor(Context context, String source, boolean isExpanded) {
+    public RecipeCardRecyclerViewAdapter(Context context, String source, boolean isExpanded) {
         (new ServerConnector(context)).getRecipes(source, this.recipes, this);
         this.isExpanded = isExpanded;
         this.source = source;
@@ -41,7 +41,7 @@ public class RecipeCardRecyclerViewAdaptor extends RecyclerView.Adapter<RecipeCa
     }
 
     @Override
-    public RecipeCardRecyclerViewAdaptor.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecipeCardRecyclerViewAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if(isExpanded)
             view = LayoutInflater.from(parent.getContext())
@@ -49,7 +49,7 @@ public class RecipeCardRecyclerViewAdaptor extends RecyclerView.Adapter<RecipeCa
         else
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recipe_ingredient_card_small, parent, false);
-        return new RecipeCardRecyclerViewAdaptor.RecipeViewHolder(view);
+        return new RecipeCardRecyclerViewAdapter.RecipeViewHolder(view);
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
-import com.cornucopia.cornucopia_app.activities.recipes.RecipeCardRecyclerViewAdaptor;
+import com.cornucopia.cornucopia_app.activities.recipes.RecipeCardRecyclerViewAdapter;
 import com.cornucopia.cornucopia_app.model.Recipe;
 
 import org.json.JSONArray;
@@ -29,7 +29,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -116,7 +115,7 @@ public class ServerConnector {
     }
 
     public void getRecipes(final String recipeEndpoint, final List<Recipe> results,
-                           final RecipeCardRecyclerViewAdaptor adaptor) {
+                           final RecipeCardRecyclerViewAdapter adapter) {
         results.clear();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 URL + "recipe/suggest/" + recipeEndpoint, new JSONArray(), new Response.Listener<JSONArray>() {
@@ -136,7 +135,7 @@ public class ServerConnector {
                             prepTime = time + " mins";
                         results.add(new Recipe(recipeName, false, prepTime));
                     }
-                    adaptor.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     Log.d("JSON", "Couldn't parse string " + e);
                 }
@@ -156,7 +155,7 @@ public class ServerConnector {
 
 //    Include headers for favorite recipes endpoint
     public void getFavoriteRecipes(final String recipeEndpoint, final List<Recipe> results,
-                           final RecipeCardRecyclerViewAdaptor adaptor) {
+                           final RecipeCardRecyclerViewAdapter adaptor) {
         results.clear();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 URL + "recipe/suggest/" + recipeEndpoint, new JSONArray(), new Response.Listener<JSONArray>() {

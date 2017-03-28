@@ -16,9 +16,9 @@ import com.cornucopia.cornucopia_app.R;
 public class RecipeFragment extends Fragment {
     public static final String BROWSE_RECIPES_FRAGMENT_TAG = "BrowseRecipes";
 
-    RecipeCardRecyclerViewAdaptor canRecipes;
-    RecipeCardRecyclerViewAdaptor couldRecipes;
-    RecipeCardRecyclerViewAdaptor browse;
+    RecipeCardRecyclerViewAdapter canRecipes;
+    RecipeCardRecyclerViewAdapter couldRecipes;
+    RecipeCardRecyclerViewAdapter browse;
 
     public static RecipeFragment newInstance() {
         return new RecipeFragment();
@@ -39,9 +39,9 @@ public class RecipeFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_recipes_home, container, false);
 
-        this.canRecipes = new RecipeCardRecyclerViewAdaptor(getContext(), "can_make");
-        this.couldRecipes = new RecipeCardRecyclerViewAdaptor(getContext(), "could_make");
-        this.browse = new RecipeCardRecyclerViewAdaptor(getContext(), "browse");
+        this.canRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "can_make");
+        this.couldRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "could_make");
+        this.browse = new RecipeCardRecyclerViewAdapter(getContext(), "browse");
 
         RecyclerView canView = (RecyclerView) view.findViewById(R.id.recipe_home_make_now_recycler_view);
         canView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

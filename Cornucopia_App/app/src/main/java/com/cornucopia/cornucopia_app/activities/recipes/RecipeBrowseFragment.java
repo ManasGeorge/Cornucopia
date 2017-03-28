@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.cornucopia.cornucopia_app.R;
 
-import static java.security.AccessController.getContext;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link RecipeBrowseFragment#newInstance} factory method to
@@ -45,8 +43,8 @@ public class RecipeBrowseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RecipeCardRecyclerViewAdaptor recipes =
-                new RecipeCardRecyclerViewAdaptor(getContext(), source, true);
+        RecipeCardRecyclerViewAdapter recipes =
+                new RecipeCardRecyclerViewAdapter(getContext(), source, true);
         View view =  inflater.inflate(R.layout.fragment_recipe_browse, container, false);
 
         switch(source) {
