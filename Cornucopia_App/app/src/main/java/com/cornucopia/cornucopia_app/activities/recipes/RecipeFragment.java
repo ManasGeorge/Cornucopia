@@ -12,8 +12,12 @@ import android.widget.Button;
 import android.widget.ViewSwitcher;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.model.Recipe;
 
-public class RecipeFragment extends Fragment {
+/**
+ * Displays the recipe lists for "WHAT YOU CAN MAKE NOW", "WHAT YOU COULD MAKE", and "BROWSE RECIPES"
+ */
+public class RecipeFragment extends Fragment implements RecipeCardRecyclerViewAdapter.OnRecipeClickListener {
     public static final String BROWSE_RECIPES_FRAGMENT_TAG = "BrowseRecipes";
 
     RecipeCardRecyclerViewAdapter canRecipes;
@@ -39,9 +43,9 @@ public class RecipeFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_recipes_home, container, false);
 
-        this.canRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "can_make");
-        this.couldRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "could_make");
-        this.browse = new RecipeCardRecyclerViewAdapter(getContext(), "browse");
+        this.canRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "can_make", this);
+        this.couldRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "could_make", this);
+        this.browse = new RecipeCardRecyclerViewAdapter(getContext(), "browse", this);
 
         RecyclerView canView = (RecyclerView) view.findViewById(R.id.recipe_home_make_now_recycler_view);
         canView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -134,5 +138,17 @@ public class RecipeFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    // RecipeCardRecyclerViewAdapter.OnRecipeClickListener
+
+    @Override
+    public void onClick(Recipe recipe) {
+        // Show the recipe detail page
+        RecipeDetailFragment fragment = RecipeDetailFragment.newInstance(recipe);
+        getFragmentManager().beginTransaction()
+                .addToBackStack(BROWSE_RECIPES_FRAGMENT_TAG)
+                .add(R.id.recipe_home_container, fragment, BROWSE_RECIPES_FRAGMENT_TAG)
+                .commit();
     }
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.cornucopia.cornucopia_app.activities.recipes.RecipeDetailFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_margin">
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:id="@+id/recipe_detail_back_button"
+            style="@style/CardContentStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:text="{fa-chevron-left}" />
+
+        <TextView
+            android:id="@+id/recipe_detail_title"
+            style="@style/CardContentStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/recipe_detail_cover_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/recipe_detail_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.joanzapata.iconify.widget.IconButton
+            android:id="@+id/recipe_detail_favorite"
+            style="@style/ActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+        <com.joanzapata.iconify.widget.IconButton
+            android:id="@+id/recipe_detail_prep_time"
+            style="@style/ActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+        <com.joanzapata.iconify.widget.IconButton
+            android:id="@+id/recipe_detail_multiplier"
+            style="@style/ActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+        <com.joanzapata.iconify.widget.IconButton
+            android:id="@+id/recipe_detail_pantry_status"
+            style="@style/ActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+</LinearLayout>

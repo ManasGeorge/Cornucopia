@@ -1,5 +1,6 @@
 package com.cornucopia.cornucopia_app.activities.recipes;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,23 +18,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeCardRecyclerViewAdapter extends RecyclerView.Adapter<RecipeCardRecyclerViewAdapter.RecipeViewHolder> {
-    List<Recipe> recipes = new ArrayList<>();
-    Context context;
-    String source;
-    boolean isExpanded;
 
-    public RecipeCardRecyclerViewAdapter(Context context, String source) {
-        (new ServerConnector(context)).getRecipes(source, this.recipes, this);
-        this.isExpanded = false;
-        this.source = source;
-        this.context = context;
+    public interface OnRecipeClickListener {
+        void onClick(Recipe recipe);
     }
 
-    public RecipeCardRecyclerViewAdapter(Context context, String source, boolean isExpanded) {
+    private List<Recipe> recipes = new ArrayList<>();
+
+    private Context context;
+    private String source;
+    private boolean isExpanded;
+
+    @NonNull
+    private OnRecipeClickListener listener;
+
+    public RecipeCardRecyclerViewAdapter(Context context, String source, @NonNull OnRecipeClickListener listener) {
+        this(context, source, listener, false);
+    }
+
+    public RecipeCardRecyclerViewAdapter(Context context, String source, @NonNull OnRecipeClickListener listener, boolean isExpanded) {
         (new ServerConnector(context)).getRecipes(source, this.recipes, this);
-        this.isExpanded = isExpanded;
-        this.source = source;
         this.context = context;
+        this.source = source;
+        this.listener = listener;
+        this.isExpanded = isExpanded;
     }
 
     public void updateRecipes() {
@@ -61,7 +69,7 @@ public class RecipeCardRecyclerViewAdapter extends RecyclerView.Adapter<RecipeCa
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ;
+                listener.onClick(recipe);
             }
         });
     }

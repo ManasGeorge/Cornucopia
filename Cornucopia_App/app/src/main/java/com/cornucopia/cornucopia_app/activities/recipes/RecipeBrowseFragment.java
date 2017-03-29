@@ -11,15 +11,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.model.Recipe;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link RecipeBrowseFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Displays all of the recipes in a vertical list for a given "source" ()
  */
-public class RecipeBrowseFragment extends Fragment {
+public class RecipeBrowseFragment extends Fragment implements RecipeCardRecyclerViewAdapter.OnRecipeClickListener {
 
-    String source;
+    private static final String RECIPE_BROWSE_FRAGMENT_TAG = "RecipeBrowse";
+
+    private String source;
 
     public RecipeBrowseFragment() {
         // Required empty public constructor
@@ -43,8 +44,6 @@ public class RecipeBrowseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RecipeCardRecyclerViewAdapter recipes =
-                new RecipeCardRecyclerViewAdapter(getContext(), source, true);
         View view =  inflater.inflate(R.layout.fragment_recipe_browse, container, false);
 
         TextView title = (TextView) view.findViewById(R.id.recipe_browse_detailed_title);
@@ -76,7 +75,9 @@ public class RecipeBrowseFragment extends Fragment {
         RecyclerView browseView = (RecyclerView) view.findViewById(R.id.recipe_browse_list);
         browseView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        browseView.setAdapter(recipes);
+        RecipeCardRecyclerViewAdapter recipesAdapter =
+                new RecipeCardRecyclerViewAdapter(getContext(), source, this, true);
+        browseView.setAdapter(recipesAdapter);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,5 +89,17 @@ public class RecipeBrowseFragment extends Fragment {
         });
 
         return view;
+    }
+
+    // RecipeCardRecyclerViewAdapter.OnRecipeClickListener
+
+    @Override
+    public void onClick(Recipe recipe) {
+        // Show the recipe detail page
+        RecipeDetailFragment fragment = RecipeDetailFragment.newInstance(recipe);
+        getFragmentManager().beginTransaction()
+                .addToBackStack(RECIPE_BROWSE_FRAGMENT_TAG)
+                .add(R.id.recipe_home_container, fragment, RECIPE_BROWSE_FRAGMENT_TAG)
+                .commit();
     }
 }
