@@ -47,32 +47,27 @@ public class RecipeBrowseFragment extends Fragment {
                 new RecipeCardRecyclerViewAdapter(getContext(), source, true);
         View view =  inflater.inflate(R.layout.fragment_recipe_browse, container, false);
 
+        TextView title = (TextView) view.findViewById(R.id.recipe_browse_detailed_title);
+        TextView description = (TextView) view.findViewById(R.id.recipe_browse_detailed_description);
+        TextView searchButton = (TextView) view.findViewById(R.id.recipe_browse_search_button);
+
         switch(source) {
             case "browse": {
-                ((TextView) view.findViewById(R.id.recipe_browse_detailed_title))
-                        .setText(R.string.recipe_fragment_browse_title);
-                ((TextView) view.findViewById(R.id.recipe_browse_detailed_description))
-                        .setText(R.string.recipe_fragment_browse_description);
-                ((TextView) view.findViewById(R.id.recipe_browse_search_button))
-                        .setText("{fa-search}");
+                title.setText(R.string.recipe_fragment_browse_title);
+                description.setText(R.string.recipe_fragment_browse_description);
+                searchButton.setText("{fa-search}");
                 break;
             }
             case "can_make": {
-                ((TextView) view.findViewById(R.id.recipe_browse_detailed_title))
-                        .setText(R.string.recipe_fragment_can_make_title);
-                ((TextView) view.findViewById(R.id.recipe_browse_detailed_description))
-                        .setText(R.string.recipe_fragment_can_make_description);
-                ((TextView) view.findViewById(R.id.recipe_browse_search_button))
-                        .setText("");
+                title.setText(R.string.recipe_fragment_can_make_title);
+                description.setText(R.string.recipe_fragment_can_make_description);
+                searchButton.setText("");
                 break;
             }
             case "could_make": {
-                ((TextView) view.findViewById(R.id.recipe_browse_detailed_title))
-                        .setText(R.string.recipe_fragment_could_make_title);
-                ((TextView) view.findViewById(R.id.recipe_browse_detailed_description))
-                        .setText(R.string.recipe_fragment_could_make_description);
-                ((TextView) view.findViewById(R.id.recipe_browse_search_button))
-                        .setText("");
+                title.setText(R.string.recipe_fragment_could_make_title);
+                description.setText(R.string.recipe_fragment_could_make_description);
+                searchButton.setText("");
                 break;
             }
         }
