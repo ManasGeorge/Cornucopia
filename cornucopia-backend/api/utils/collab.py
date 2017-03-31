@@ -17,7 +17,7 @@ movies={'Marcel Caraciolo': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
  'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
 'Penny Frewman': {'Snakes on a Plane':4.5,'You, Me and Dupree':1.0,'Superman Returns':4.0}}
 
-from api.models import IngredientType
+from api.models import Favorite
 from math import sqrt
 
 
@@ -96,5 +96,10 @@ class CollabRecommender(object):
         return rankings
 
 def initialize_collab_filter():
-    # data = IngredientType.objects.values_list('name', 'pk')
+    raw = Favorite.objects.filter(deleted=False).values_list('user', 'recipe')
+    data = {}
+    for user, recipe in raw:
+        if user not in data:
+            data[user] = []
+        data[user].append({recipe: 1.0})
     return CollabRecommender(data)
