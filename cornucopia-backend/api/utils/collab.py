@@ -17,6 +17,7 @@ movies={'Marcel Caraciolo': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
  'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
 'Penny Frewman': {'Snakes on a Plane':4.5,'You, Me and Dupree':1.0,'Superman Returns':4.0}}
 
+from api.models import IngredientType
 from math import sqrt
 
 
@@ -25,7 +26,7 @@ class CollabRecommender(object):
     def __init__(self, data):
         self.data = data
 
-    def sim_pearson(self, p1, p2):
+    def _sim_pearson(self, p1, p2):
         """Returns the Pearson correlation coefficient for p1 and p2"""
         #Get the list of mutually rated items
         si = {}
@@ -61,7 +62,7 @@ class CollabRecommender(object):
 
         return r
 
-    def getRecommendations(self, person):
+    def __call__(self, person):
         """ Gets recommendations for a person by using a weighted average
         of every other user's rankings"""
         totals = {}
@@ -71,7 +72,7 @@ class CollabRecommender(object):
             #don't compare me to myself
             if other == person:
                 continue
-            sim = self.sim_person(person, other)
+            sim = self._sim_person(person, other)
 
             #ignore scores of zero or lower
             if sim <= 0:
@@ -94,3 +95,6 @@ class CollabRecommender(object):
         rankings.reverse()
         return rankings
 
+def initialize_collab_filter():
+    # data = IngredientType.objects.values_list('name', 'pk')
+    return CollabRecommender(data)
