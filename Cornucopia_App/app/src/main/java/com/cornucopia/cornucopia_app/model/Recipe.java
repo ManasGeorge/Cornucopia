@@ -34,5 +34,73 @@ public class Recipe {
     public void setPrepTime(String prepTime) {
         this.prepTime = prepTime;
     }
+
+    public static class Ingredient {
+        private String ingredientName;
+        private String quantity;
+
+        public Ingredient(String ingredientName, String quantity) {
+            this.ingredientName = ingredientName;
+            this.quantity = quantity;
+        }
+
+        public String getIngredientName() {
+            return ingredientName;
+        }
+
+        public void setIngredientName(String ingredientName) {
+            this.ingredientName = ingredientName;
+        }
+
+        public String getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(String quantity) {
+            this.quantity = quantity;
+        }
+    }
+
+    public static class Instruction {
+        private String text;
+
+        public Instruction(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+    }
+
+    public static class Comment {
+        private String text;
+        private String user;
+
+        public Comment(String text, String user) {
+            this.text = text;
+            this.user = user;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+    }
 }
 

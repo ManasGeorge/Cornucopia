@@ -34,6 +34,9 @@
     <string name="recipe_fragment_could_make_title">WHAT YOU COULD MAKE</string>
     <string name="recipe_fragment_could_make_description">with only a few extra items</string>
 
+    <!-- Recipe Detailed -->
+    <string name="recipe_detail_ingredient_quantity_title">Quantity</string>
+
     <!-- Grocery -->
     <string name="enter_ingredient_name">Enter Ingredient Name</string>
     <string name="grocery_export_pdf_button_text">{fa-share-alt} Export PDF</string>

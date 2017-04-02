@@ -3,14 +3,20 @@ package com.cornucopia.cornucopia_app.activities.recipes;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cornucopia.cornucopia_app.R;
+import com.cornucopia.cornucopia_app.businessLogic.ServerConnector;
 import com.cornucopia.cornucopia_app.model.Recipe;
 import com.joanzapata.iconify.widget.IconButton;
+
+import java.util.List;
 
 /**
  * Displays the ingredients, instructions and comments for a recipe.
@@ -24,6 +30,9 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     private Recipe recipe;
+    private List<Recipe.Ingredient> recipeIngredients;
+    private List<Recipe.Instruction> recipeInstructions;
+    private List<Recipe.Comment> recipeComments;
 
     private IconButton favorite;
     private IconButton prepTime;
@@ -66,6 +75,20 @@ public class RecipeDetailFragment extends Fragment {
 
         layoutView();
 
+        // Configure the ViewPager at bottom
+
+        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.recipe_detail_view_pager);
+        new ServerConnector(getContext()).getFullRecipe(recipe.getRecipeName(), new ServerConnector.FullRecipeServerResult() {
+            @Override
+            public void onCompletion(List<Recipe.Ingredient> ingredients, List<Recipe.Instruction> instructions, List<Recipe.Comment> comments) {
+                recipeIngredients = ingredients;
+                recipeInstructions = instructions;
+                recipeComments = comments;
+                // Connect the adapter once we have loaded the ingredients, instructions, and comments
+                viewPager.setAdapter(new RecipeDetailFragmentPagerAdapter(getFragmentManager()));
+            }
+        });
+
         return view;
     }
 
@@ -77,5 +100,54 @@ public class RecipeDetailFragment extends Fragment {
         multiplierButton.setText(multiplierText);
 
         pantryStatus.setText("{pantry-check}");
+    }
+
+    private static int INGREDIENTS_IDX = 0;
+    private static int INSTRUCTIONS_IDX = 1;
+    private static int COMMENTS_IDX = 2;
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    private class RecipeDetailFragmentPagerAdapter extends FragmentPagerAdapter {
+
+        RecipeDetailFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            if (position == INGREDIENTS_IDX) {
+                RecipeDetailIngredientAdapter adapter = new RecipeDetailIngredientAdapter(recipeIngredients);
+                return RecipeDetailFragmentPage.newInstance(adapter, "All items in pantry");
+            } else if (position == INSTRUCTIONS_IDX) {
+                RecipeDetailInstructionAdapter adapter = new RecipeDetailInstructionAdapter(recipeInstructions);
+                return RecipeDetailFragmentPage.newInstance(adapter, null);
+            } else if (position == COMMENTS_IDX) {
+                RecipeDetailCommentAdapter adapter = new RecipeDetailCommentAdapter(recipeComments);
+                return RecipeDetailFragmentPage.newInstance(adapter, "ALLRECIPES.COM");
+            }
+            return new Fragment();
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Ingredients";
+                case 1:
+                    return "Instructions";
+                case 2:
+                    return "Comments";
+            }
+            return null;
+        }
     }
 }

@@ -153,6 +153,73 @@ public class ServerConnector {
         // to have Volley make a synchronous request and block.
     }
 
+    public interface FullRecipeServerResult {
+        void onCompletion(List<Recipe.Ingredient> ingredients, List<Recipe.Instruction> instructions, List<Recipe.Comment> comments);
+    }
+
+    public void getFullRecipe(final String recipeName, final FullRecipeServerResult recipeResult) {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+                URL + "recipe/by_id/" + recipeName, new JSONArray(), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    Log.d("VOLLEY", "Got response for recipe/by_id/" + recipeName  + ": " + response);
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject recipe;
+                        recipe = response.getJSONObject(i);
+//                        String recipeName = recipe.getString("name");
+//                        int time = recipe.getInt("prep_time");
+//                        String prepTime;
+//                        if(time >= 60)
+//                            prepTime = String.format("%02d:%02d hrs", time/60, time%60);
+//                        else
+//                            prepTime = time + " mins";
+//                        results.add(new Recipe(recipeName, false, prepTime));
+                    }
+//                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.d("JSON", "Couldn't parse string " + e);
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //TODO: DEMO
+                List<Recipe.Ingredient> ingredients = new ArrayList<>();
+                ingredients.add(new Recipe.Ingredient("Cocoa powder", "2 tablespoons"));
+                ingredients.add(new Recipe.Ingredient("Consended milk", "250 milliliters"));
+
+                List<Recipe.Instruction> instructions = new ArrayList<>();
+                instructions.add(new Recipe.Instruction("Pour all ingredients in a pot in medium-high heat"));
+                instructions.add(new Recipe.Instruction("Mix well constantly until it stops sticking to the pan"));
+                instructions.add(new Recipe.Instruction("Bring heat to low and mix for 2 more minutes"));
+                instructions.add(new Recipe.Instruction("Pour in a bowl and serve after it cools off"));
+                List<Recipe.Comment> comments = new ArrayList<>();
+                comments.add(new Recipe.Comment("Amazing recipe!", "raphael"));
+
+                recipeResult.onCompletion(ingredients, instructions, comments);
+                Log.d("VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap < String, String > headers = new HashMap<>();
+                headers.put(USER_TOKEN_KEY, mUserToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return super.getBodyContentType();
+            }
+        };
+
+        queue.add(request);
+        Log.d("Requesting", URL + "recipe/by_id/" + recipeName);
+    }
+
 //    Include headers for favorite recipes endpoint
     public void getFavoriteRecipes(final String recipeEndpoint, final List<Recipe> results,
                            final RecipeCardRecyclerViewAdapter adaptor) {

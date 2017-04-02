@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recipe_detail_fragment_page_recycler_view"
+        android:name="com.cornucopia.cornucopia_app.GroceryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/grocery_ingredient_card" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:layout_marginTop="@dimen/text_margin"
+        android:id="@+id/recipe_detail_fragment_page_footer"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        style="@style/CardContentStyle"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
