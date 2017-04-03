@@ -143,9 +143,28 @@ public class ServerConnector {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("VOLLEY", "Failed getting recipes");
+                String message = error.getMessage();
+                if (message == null) {
+                    message = "Unknown error";
+                }
+                // TODO: Remove after demo
+                results.add(new Recipe("Brigaderiro", false, "15 mins"));
+                adapter.notifyDataSetChanged();
+                Log.d("VOLLEY", message);
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap < String, String > headers = new HashMap<>();
+                headers.put(USER_TOKEN_KEY, mUserToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return super.getBodyContentType();
+            }
+        };
 
         queue.add(request);
         Log.d("Requesting", URL + "recipe/suggest/" + recipeEndpoint);
@@ -252,7 +271,7 @@ public class ServerConnector {
             public void onErrorResponse(VolleyError error) {
                 Log.d("VOLLEY", "Failed getting recipes");
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap < String, String > headers = new HashMap<>();
