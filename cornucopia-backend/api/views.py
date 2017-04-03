@@ -8,10 +8,12 @@ import api.models as m
 from api.utils import initialize_suggestions
 from api.utils import initialize_search
 from api.utils import initialize_recipe_suggestions
+from api.utils import initialize_collab_filter
 
 suggest = None
 suggest_recipes = None
 search = None
+collab = None
 
 # Create your views here.
 def index(request):
@@ -91,9 +93,12 @@ def could_make_recipes(request):
 
 def browse_recipes(request):
     """Returns recipes recommended to the user given their id"""
-    # TODO(irapha): use user_id in POST request to retrieve favorites and use rec system
-    # TODO(irapha): paginate
-    data = list(map(model_to_dict, m.Recipe.objects.all()[:10]))
+    if not 'HTTP_TOKEN' in request.META:
+        return JsonResponse({ 'status': 'error', 'msg': 'user token not found' })
+    global collab
+    if collab is None:
+        collab = initialize_collab_filter()
+    data = collab(request.META['HTTP_TOKEN'])
     return JsonResponse(data, safe=False)
 
 def favorite_recipe(request, **kwargs):
