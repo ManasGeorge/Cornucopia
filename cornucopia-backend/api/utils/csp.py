@@ -1,5 +1,5 @@
 from django.forms.models import model_to_dict
-from api.models import Recipe
+from api.models import Recipe, Favorite
 from pint import UnitRegistry
 from pint.errors import DimensionalityError
 
@@ -25,7 +25,7 @@ def is_favorited(user_id, recipe_id):
             return True
         else:
             return False
-    except m.Favorite.DoesNotExist:
+    except Favorite.DoesNotExist:
         return False
     print('BAD')
     return False
