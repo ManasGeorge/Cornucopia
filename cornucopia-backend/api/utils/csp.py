@@ -19,7 +19,7 @@ def is_favorited(user_id, recipe_id):
     """Returns 1 for favorited, 2 for not favorited, which are values used for sorting"""
     try:
         # If already favorited in the past, mark as not deleted
-        existing = m.Favorite.objects.filter(recipe=kwargs['id'],
+        existing = Favorite.objects.filter(recipe=kwargs['id'],
                 user=request.META['HTTP_TOKEN']).values_list('deleted')
         if existing[0] == True:
             return True
