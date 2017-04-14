@@ -86,8 +86,8 @@ class RecipeSuggester(object):
                     used_items_expiration_count)))
 
             # sort recipes
-            can_make = [i[0] for i in sorted(can_make, key=lambda x: x[1])]
-            could_make = [i[0] for i in sorted(could_make, key=lambda x: x[1])]
+            can_make_recipes = [i[0] for i in sorted(can_make_recipes, key=lambda x: x[1])]
+            could_make_recipes = [i[0] for i in sorted(could_make_recipes, key=lambda x: x[1])]
 
         return can_make_recipes, could_make_recipes
 
