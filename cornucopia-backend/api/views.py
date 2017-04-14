@@ -3,6 +3,7 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 import api.models as m
 from api.utils import initialize_suggestions
@@ -65,6 +66,7 @@ def recipe_by_id(request, **kwargs):
             recipe_dict['favorited'] = False
     return JsonResponse(recipe_dict)
 
+@csrf_exempt
 def can_make_recipes(request):
     """Returns recipes the user can make, given their ingredients"""
     if not 'HTTP_TOKEN' in request.META:
@@ -78,6 +80,7 @@ def can_make_recipes(request):
     can_make, _ = suggest_recipes(request.META['HTTP_TOKEN'], ingredients, 3)
     return JsonResponse(can_make, safe=False)
 
+@csrf_exempt
 def could_make_recipes(request):
     """Returns recipes the user could make, with their ingredients plus a few"""
     if not 'HTTP_TOKEN' in request.META:
