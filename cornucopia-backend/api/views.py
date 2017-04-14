@@ -3,6 +3,7 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 import api.models as m
 from api.utils import initialize_suggestions
