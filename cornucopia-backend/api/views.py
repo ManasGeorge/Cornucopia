@@ -99,6 +99,9 @@ def browse_recipes(request):
     if collab is None:
         collab = initialize_collab_filter()
     data = collab(request.META['HTTP_TOKEN'])
+    if len(data) == 0:
+        # temporary sane default
+        data = list(map(model_to_dict, m.Recipe.objects.all()[:10]))
     return JsonResponse(data, safe=False)
 
 def favorite_recipe(request, **kwargs):
