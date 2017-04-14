@@ -42,7 +42,7 @@ class RecipeSuggester(object):
         if len(user_ingredients) > 0:
             user_ingredient_types, user_ingredient_quant, user_ingredient_exp = zip(*user_ingredients)
         else:
-            user_ingredient_types, user_ingredient_quant, user_ingredient_exp = [], []
+            user_ingredient_types, user_ingredient_quant, user_ingredient_exp = [], [], []
 
         for recipe_id, ingredients in self.recipes:
             can_make = True
@@ -85,9 +85,9 @@ class RecipeSuggester(object):
                     extra_items_count,
                     used_items_expiration_count)))
 
-            # sort recipes
-            can_make_recipes = [i[0] for i in sorted(can_make_recipes, key=lambda x: x[1])]
-            could_make_recipes = [i[0] for i in sorted(could_make_recipes, key=lambda x: x[1])]
+        # sort recipes
+        can_make_recipes = [i[0] for i in sorted(can_make_recipes, key=lambda x: x[1])]
+        could_make_recipes = [i[0] for i in sorted(could_make_recipes, key=lambda x: x[1])]
 
         return can_make_recipes, could_make_recipes
 
