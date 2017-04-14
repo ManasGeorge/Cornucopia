@@ -4,7 +4,7 @@
         "pk": 1,
         "fields": {
             "name": "Brigadeiro",
-            "image": "",
+            "image": "http://s1.grouprecipes.com/images/recipes/200/7406674716.jpg",
             "prep_time": 15,
             "source": ""
         }
@@ -14,7 +14,7 @@
         "pk": 2,
         "fields": {
             "name": "Mac & Cheese",
-            "image": "",
+            "image": "http://cdn2.tmbi.com/TOH/Images/Photos/37/1200x1200/Bistro-Mac---Cheese_exps47665_SD143203C10_24_5bC_RMS.jpg",
             "prep_time": 20,
             "source": ""
         }
@@ -24,7 +24,7 @@
         "pk": 3,
         "fields": {
             "name": "Potato Salad",
-            "image": "",
+            "image": "https://s3-prod-calcmenu.unileversolutions.com/public_picture/picOriginal/6609TheOriginalPotatoSalad2.jpg",
             "prep_time": 25,
             "source": ""
         }
@@ -34,7 +34,7 @@
         "pk": 4,
         "fields": {
             "name": "Egg Salad",
-            "image": "",
+            "image": "http://images.media-allrecipes.com/userphotos/250x250/00/91/79/917952.jpg",
             "prep_time": 25,
             "source": ""
         }
@@ -44,7 +44,7 @@
         "pk": 5,
         "fields": {
             "name": "Cookies",
-            "image": "",
+            "image": "https://virulentwordofmouse.files.wordpress.com/2014/08/chocolate-chip-cookie.jpg",
             "prep_time": 60,
             "source": ""
         }
