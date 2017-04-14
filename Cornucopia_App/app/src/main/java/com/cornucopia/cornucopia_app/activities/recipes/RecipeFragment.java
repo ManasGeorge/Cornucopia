@@ -43,6 +43,8 @@ public class RecipeFragment extends Fragment implements RecipeCardRecyclerViewAd
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_recipes_home, container, false);
 
+        setRetainInstance(true);
+
         this.canRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "can_make", this);
         this.couldRecipes = new RecipeCardRecyclerViewAdapter(getContext(), "could_make", this);
         this.browse = new RecipeCardRecyclerViewAdapter(getContext(), "browse", this);

@@ -148,7 +148,12 @@ public class ServerConnector {
                     message = "Unknown error";
                 }
                 // TODO: Remove after demo
-                results.add(new Recipe("Brigaderiro", false, "15 mins"));
+                if (recipeEndpoint.equals("could_make")) {
+                    results.add(new Recipe("Brigaderiro", false, "15 mins"));
+                } else {
+                    results.add(new Recipe("Mac & Cheese", true, "20 mins"));
+                    results.add(new Recipe("Hamburger", false, "25 mins"));
+                }
                 adapter.notifyDataSetChanged();
                 Log.d("VOLLEY", message);
             }
@@ -207,8 +212,20 @@ public class ServerConnector {
             public void onErrorResponse(VolleyError error) {
                 //TODO: DEMO
                 List<Recipe.Ingredient> ingredients = new ArrayList<>();
-                ingredients.add(new Recipe.Ingredient("Cocoa powder", "2 tablespoons"));
-                ingredients.add(new Recipe.Ingredient("Consended milk", "250 milliliters"));
+                if (recipeName.equals("Brigaderiro")) {
+                    ingredients.add(new Recipe.Ingredient("Cocoa powder", "2 tablespoons"));
+                    ingredients.add(new Recipe.Ingredient("Consended milk", "250 milliliters"));
+                } else if (recipeName.equals("Mac & Cheese")) {
+                    ingredients.add(new Recipe.Ingredient("Dried Macaroni", "4 cups"));
+                    ingredients.add(new Recipe.Ingredient("Egg", "1"));
+                    ingredients.add(new Recipe.Ingredient("Butter", "4 tablespoons"));
+                    ingredients.add(new Recipe.Ingredient("Cheddar cheese", "1 lb"));
+                    ingredients.add(new Recipe.Ingredient("Milk", "2.5 cups"));
+                } else if (recipeName.equals("Hamburger")) {
+                    ingredients.add(new Recipe.Ingredient("Ground beef", "1 lb"));
+                    ingredients.add(new Recipe.Ingredient("Egg", "1"));
+                    ingredients.add(new Recipe.Ingredient("Salt", "1 teaspoon"));
+                }
 
                 List<Recipe.Instruction> instructions = new ArrayList<>();
                 instructions.add(new Recipe.Instruction("Pour all ingredients in a pot in medium-high heat"));

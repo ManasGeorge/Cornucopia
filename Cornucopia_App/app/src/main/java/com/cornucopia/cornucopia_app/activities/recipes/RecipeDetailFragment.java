@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class RecipeDetailFragment extends Fragment {
 
     private int multiplier = 1;
 
+    private ViewPager viewPager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,9 +78,14 @@ public class RecipeDetailFragment extends Fragment {
 
         layoutView();
 
-        // Configure the ViewPager at bottom
+        viewPager = (ViewPager) view.findViewById(R.id.recipe_detail_view_pager);
+        return view;
+    }
 
-        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.recipe_detail_view_pager);
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("RecipeDetail", "On start");
         new ServerConnector(getContext()).getFullRecipe(recipe.getRecipeName(), new ServerConnector.FullRecipeServerResult() {
             @Override
             public void onCompletion(List<Recipe.Ingredient> ingredients, List<Recipe.Instruction> instructions, List<Recipe.Comment> comments) {
@@ -86,10 +94,10 @@ public class RecipeDetailFragment extends Fragment {
                 recipeComments = comments;
                 // Connect the adapter once we have loaded the ingredients, instructions, and comments
                 viewPager.setAdapter(new RecipeDetailFragmentPagerAdapter(getFragmentManager()));
+
+                Log.e("RecipeDetail", "Server completion");
             }
         });
-
-        return view;
     }
 
     private void layoutView() {
