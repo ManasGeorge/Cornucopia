@@ -114,7 +114,7 @@ public class ServerConnector {
         queue.add(request);
     }
 
-    public void getRecipes(final String recipeEndpoint, final List<Recipe> results,
+    public void getRecipesOld(final String recipeEndpoint, final List<Recipe> results,
                            final RecipeCardRecyclerViewAdapter adapter) {
         results.clear();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
@@ -127,13 +127,14 @@ public class ServerConnector {
                         JSONObject recipe;
                         recipe = response.getJSONObject(i);
                         String recipeName = recipe.getString("name");
+                        String url = recipe.getString("image");
                         int time = recipe.getInt("prep_time");
                         String prepTime;
                         if(time >= 60)
                             prepTime = String.format("%02d:%02d hrs", time/60, time%60);
                         else
                             prepTime = time + " mins";
-                        results.add(new Recipe(recipeName, false, prepTime));
+                        results.add(new Recipe(recipeName, false, prepTime, url));
                     }
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -154,7 +155,7 @@ public class ServerConnector {
     }
 
 //    Include headers for favorite recipes endpoint
-    public void getFavoriteRecipes(final String recipeEndpoint, final List<Recipe> results,
+    public void getRecipes(final String recipeEndpoint, final List<Recipe> results,
                            final RecipeCardRecyclerViewAdapter adaptor) {
         results.clear();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
@@ -167,13 +168,14 @@ public class ServerConnector {
                         JSONObject recipe;
                         recipe = response.getJSONObject(i);
                         String recipeName = recipe.getString("name");
+                        String url = recipe.getString("image");
                         int time = recipe.getInt("prep_time");
                         String prepTime;
                         if(time >= 60)
                             prepTime = String.format("%02d:%02d hrs", time/60, time%60);
                         else
                             prepTime = time + " mins";
-                        results.add(new Recipe(recipeName, false, prepTime));
+                        results.add(new Recipe(recipeName, false, prepTime, url));
                     }
                     adaptor.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -189,6 +191,7 @@ public class ServerConnector {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap < String, String > headers = new HashMap<>();
+                Log.d("USER_TOKEN_KEY: token=", mUserToken);
                 headers.put(USER_TOKEN_KEY, mUserToken);
                 return headers;
             }

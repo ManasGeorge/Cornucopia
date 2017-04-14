@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Cornucopia_App.iml" filepath="$PROJECT_DIR$/Cornucopia_App.iml" />
       <module fileurl="file:///mnt/Data/Dropbox/Documents/GaTech/Classes/Spring17/Cornucopia/Cornucopia_App/Cornucopia_App.iml" filepath="/mnt/Data/Dropbox/Documents/GaTech/Classes/Spring17/Cornucopia/Cornucopia_App/Cornucopia_App.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file:///mnt/Data/Dropbox/Documents/GaTech/Classes/Spring17/Cornucopia/Cornucopia_App/app/app.iml" filepath="/mnt/Data/Dropbox/Documents/GaTech/Classes/Spring17/Cornucopia/Cornucopia_App/app/app.iml" />
     </modules>
   </component>
