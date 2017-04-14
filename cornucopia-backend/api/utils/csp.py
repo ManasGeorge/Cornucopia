@@ -21,7 +21,7 @@ def is_favorited(user_id, recipe_id):
         # If already favorited in the past, mark as not deleted
         existing = Favorite.objects.filter(recipe=recipe_id,
                 user=user_id).values_list('deleted')
-        if existing[0] == True:
+        if existing and existing[0] == True:
             return True
         else:
             return False
