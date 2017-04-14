@@ -87,6 +87,7 @@ class RecipeSuggester(object):
 
             # sort recipes
             can_make_recipes = [i[0] for i in sorted(can_make_recipes, key=lambda x: x[1])]
+            raise Exception(could_make_recipes)
             could_make_recipes = [i[0] for i in sorted(could_make_recipes, key=lambda x: x[1])]
 
         return can_make_recipes, could_make_recipes
