@@ -66,6 +66,12 @@ def recipe_by_id(request, **kwargs):
             recipe_dict['favorited'] = False
     return JsonResponse(recipe_dict)
 
+# TODO move this to utils
+def recipe_by_id_helper(rid):
+    recipe = m.Recipe.objects.get(pk=rid)
+    recipe_dict = model_to_dict(recipe)
+    return recipe_dict
+
 @csrf_exempt
 def can_make_recipes(request):
     """Returns recipes the user can make, given their ingredients"""
@@ -78,7 +84,8 @@ def can_make_recipes(request):
         return JsonResponse({ 'status': 'error', 'msg': 'no ingredients received in POST' })
     ingredients = json.loads(request.POST['ingredients'])
     can_make, _ = suggest_recipes(request.META['HTTP_TOKEN'], ingredients, 3)
-    return JsonResponse(can_make, safe=False)
+    can_make_dicts = [recipe_by_id_helper(rid) for rid in can_make]
+    return JsonResponse(can_make_dicts, safe=False)
 
 @csrf_exempt
 def could_make_recipes(request):
@@ -92,7 +99,8 @@ def could_make_recipes(request):
         return JsonResponse({ 'status': 'error', 'msg': 'no ingredients received in POST' })
     ingredients = json.loads(request.POST['ingredients'])
     _, could_make = suggest_recipes(request.META['HTTP_TOKEN'], ingredients, 3)
-    return JsonResponse(could_make, safe=False)
+    could_make_dicts = [recipe_by_id_helper(rid) for rid in could_make]
+    return JsonResponse(could_make_dicts, safe=False)
 
 def browse_recipes(request):
     """Returns recipes recommended to the user given their id"""
