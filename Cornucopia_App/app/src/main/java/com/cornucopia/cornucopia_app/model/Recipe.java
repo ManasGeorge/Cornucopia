@@ -1,15 +1,19 @@
 package com.cornucopia.cornucopia_app.model;
 
 public class Recipe {
+    private int id;
     private String recipeName;
     private boolean isFavorited;
     private String prepTime;
 
-    public Recipe(String recipeName, boolean isFavorited, String prepTime) {
+    public Recipe(int id, String recipeName, boolean isFavorited, String prepTime) {
+        this.id = id;
         this.recipeName = recipeName;
         this.isFavorited = isFavorited;
         this.prepTime = prepTime;
     }
+
+    public int getId() { return id; }
 
     public String getRecipeName() {
         return recipeName;

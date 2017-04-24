@@ -115,4 +115,3 @@ public class RecipeCardRecyclerViewAdapter extends RecyclerView.Adapter<RecipeCa
         }
     }
 }
-

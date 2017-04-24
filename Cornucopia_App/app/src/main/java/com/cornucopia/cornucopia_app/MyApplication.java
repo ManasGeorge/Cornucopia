@@ -35,14 +35,27 @@ public class MyApplication extends Application {
 
                         date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * 2); // 2 days from now
 
-                        PantryIngredient eggs = PantryIngredient.newPantryIngredient(realm, "Eggs", date, true, "2 dozen");
+                        PantryIngredient eggs = PantryIngredient.newPantryIngredient(realm, "Egg", date, true, "2 dozen");
                         realm.copyToRealm(eggs);
 
                         PantryIngredient bread = PantryIngredient.newPantryIngredient(realm, "Bread", date, false, "1 loaf");
                         realm.copyToRealm(bread);
 
+                        // TODO: Remove after demo
+                        date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * 400); // 400 days from now
+                        PantryIngredient mac = PantryIngredient.newPantryIngredient(realm, "Dried Macaroni", date, false, "4 cups");
+                        realm.copyToRealm(mac);
+                        date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * 60); // 60 days from now
+                        PantryIngredient but = PantryIngredient.newPantryIngredient(realm, "Butter", date, false, "2 sticks");
+                        realm.copyToRealm(but);
+                        date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * 14); // 14 days from now
+                        PantryIngredient che = PantryIngredient.newPantryIngredient(realm, "Cheddar cheese", date, false, "1.5 lb");
+                        realm.copyToRealm(che);
+                        date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * 365 * 5); // 5 years from now
+                        PantryIngredient salt = PantryIngredient.newPantryIngredient(realm, "Salt", date, false, "2 lb");
+                        realm.copyToRealm(salt);
 
-                        GroceryIngredient milk2 = GroceryIngredient.newGroceryIngredient(realm, "Milk", date, false, "2 quarts");
+                        GroceryIngredient milk2 = GroceryIngredient.newGroceryIngredient(realm, "Orange Juice", date, false, "2 quarts");
                         realm.copyToRealm(milk2);
 
                         GroceryIngredient cheese = GroceryIngredient.newGroceryIngredient(realm, "Cheese", date, true, "1 wheel");

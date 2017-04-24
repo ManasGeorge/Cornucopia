@@ -23,6 +23,11 @@ class RecipeDetailCommentAdapter extends RecyclerView.Adapter<RecipeDetailCommen
         this.comments = comments;
     }
 
+    public void updateData(List<Recipe.Comment> list) {
+        comments = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecipeDetailCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

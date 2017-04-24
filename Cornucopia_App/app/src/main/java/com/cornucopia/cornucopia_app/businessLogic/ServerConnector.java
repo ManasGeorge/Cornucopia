@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.cornucopia.cornucopia_app.activities.recipes.RecipeCardRecyclerViewAdapter;
+import com.cornucopia.cornucopia_app.model.PantryIngredient;
 import com.cornucopia.cornucopia_app.model.Recipe;
 
 import org.json.JSONArray;
@@ -32,6 +33,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import io.realm.Realm;
 
 public class ServerConnector {
     private static final String URL = "https://cornucopia-gt.herokuapp.com/api/";
@@ -127,13 +130,14 @@ public class ServerConnector {
                         JSONObject recipe;
                         recipe = response.getJSONObject(i);
                         String recipeName = recipe.getString("name");
+                        int id = recipe.getInt("pk");
                         int time = recipe.getInt("prep_time");
                         String prepTime;
                         if(time >= 60)
                             prepTime = String.format("%02d:%02d hrs", time/60, time%60);
                         else
                             prepTime = time + " mins";
-                        results.add(new Recipe(recipeName, false, prepTime));
+                        results.add(new Recipe(id, recipeName, false, prepTime));
                     }
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -149,10 +153,20 @@ public class ServerConnector {
                 }
                 // TODO: Remove after demo
                 if (recipeEndpoint.equals("could_make")) {
-                    results.add(new Recipe("Brigaderiro", false, "15 mins"));
+                    results.add(new Recipe(1,"Brigadeiro", false, "15 mins"));
+                    if(Realm.getDefaultInstance().where(PantryIngredient.class)
+                            .equalTo("ingredientName", "Ground beef")
+                            .findAll().size() == 0)
+                        results.add(new Recipe(1, "Hamburger", false, "25 mins"));
                 } else {
-                    results.add(new Recipe("Mac & Cheese", true, "20 mins"));
-                    results.add(new Recipe("Hamburger", false, "25 mins"));
+                    if(Realm.getDefaultInstance().where(PantryIngredient.class)
+                            .equalTo("ingredientName", "Egg")
+                            .findAll() .size() > 0)
+                        results.add(new Recipe(1, "Mac & Cheese", true, "20 mins"));
+                    if(Realm.getDefaultInstance().where(PantryIngredient.class)
+                            .equalTo("ingredientName", "Ground beef")
+                            .findAll() .size() > 0)
+                        results.add(new Recipe(1, "Hamburger", false, "25 mins"));
                 }
                 adapter.notifyDataSetChanged();
                 Log.d("VOLLEY", message);
@@ -212,9 +226,9 @@ public class ServerConnector {
             public void onErrorResponse(VolleyError error) {
                 //TODO: DEMO
                 List<Recipe.Ingredient> ingredients = new ArrayList<>();
-                if (recipeName.equals("Brigaderiro")) {
+                if (recipeName.equals("Brigadeiro")) {
                     ingredients.add(new Recipe.Ingredient("Cocoa powder", "2 tablespoons"));
-                    ingredients.add(new Recipe.Ingredient("Consended milk", "250 milliliters"));
+                    ingredients.add(new Recipe.Ingredient("Condensed milk", "250 milliliters"));
                 } else if (recipeName.equals("Mac & Cheese")) {
                     ingredients.add(new Recipe.Ingredient("Dried Macaroni", "4 cups"));
                     ingredients.add(new Recipe.Ingredient("Egg", "1"));
@@ -271,12 +285,13 @@ public class ServerConnector {
                         recipe = response.getJSONObject(i);
                         String recipeName = recipe.getString("name");
                         int time = recipe.getInt("prep_time");
+                        int id = recipe.getInt("pk");
                         String prepTime;
                         if(time >= 60)
                             prepTime = String.format("%02d:%02d hrs", time/60, time%60);
                         else
                             prepTime = time + " mins";
-                        results.add(new Recipe(recipeName, false, prepTime));
+                        results.add(new Recipe(id, recipeName, false, prepTime));
                     }
                     adaptor.notifyDataSetChanged();
                 } catch (JSONException e) {

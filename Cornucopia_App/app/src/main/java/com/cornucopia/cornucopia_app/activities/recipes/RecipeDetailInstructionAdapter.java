@@ -23,6 +23,11 @@ class RecipeDetailInstructionAdapter extends RecyclerView.Adapter<RecipeDetailIn
         this.instructions = instructions;
     }
 
+    public void updateData(List<Recipe.Instruction> list) {
+        instructions = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecipeDetailInstructionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

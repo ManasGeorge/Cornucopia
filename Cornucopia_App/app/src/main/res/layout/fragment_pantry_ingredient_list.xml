@@ -87,7 +87,7 @@
                         android:textAlignment="center" />
 
                     <EditText
-                        android:inputType="numberDecimal"
+                        android:inputType="text"
                         android:id="@+id/new_pantry_ingredient_quantity"
                         style="@style/CardContentStyle"
                         android:layout_width="match_parent"

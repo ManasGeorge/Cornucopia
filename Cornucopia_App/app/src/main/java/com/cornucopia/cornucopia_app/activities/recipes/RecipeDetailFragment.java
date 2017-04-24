@@ -2,9 +2,11 @@ package com.cornucopia.cornucopia_app.activities.recipes;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +19,10 @@ import com.cornucopia.cornucopia_app.businessLogic.ServerConnector;
 import com.cornucopia.cornucopia_app.model.Recipe;
 import com.joanzapata.iconify.widget.IconButton;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * Displays the ingredients, instructions and comments for a recipe.
@@ -31,9 +36,12 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     private Recipe recipe;
-    private List<Recipe.Ingredient> recipeIngredients;
-    private List<Recipe.Instruction> recipeInstructions;
-    private List<Recipe.Comment> recipeComments;
+    private RecipeDetailIngredientAdapter recipeIngredients =
+            new RecipeDetailIngredientAdapter(new ArrayList<Recipe.Ingredient>());
+    private RecipeDetailInstructionAdapter recipeInstructions =
+            new RecipeDetailInstructionAdapter(new ArrayList<Recipe.Instruction>());
+    private RecipeDetailCommentAdapter recipeComments =
+            new RecipeDetailCommentAdapter(new ArrayList<Recipe.Comment>());
 
     private IconButton favorite;
     private IconButton prepTime;
@@ -68,7 +76,12 @@ public class RecipeDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: Save?
-                recipe.setFavorited(!recipe.isFavorited());
+                Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        recipe.setFavorited(!recipe.isFavorited());
+                    }
+                });
                 layoutView();
             }
         });
@@ -79,6 +92,8 @@ public class RecipeDetailFragment extends Fragment {
         layoutView();
 
         viewPager = (ViewPager) view.findViewById(R.id.recipe_detail_view_pager);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
         return view;
     }
 
@@ -89,12 +104,12 @@ public class RecipeDetailFragment extends Fragment {
         new ServerConnector(getContext()).getFullRecipe(recipe.getRecipeName(), new ServerConnector.FullRecipeServerResult() {
             @Override
             public void onCompletion(List<Recipe.Ingredient> ingredients, List<Recipe.Instruction> instructions, List<Recipe.Comment> comments) {
-                recipeIngredients = ingredients;
-                recipeInstructions = instructions;
-                recipeComments = comments;
+                Log.e("INGREDIENTS", recipeIngredients.toString());
+                recipeIngredients.updateData(ingredients);
+                recipeInstructions.updateData(instructions);
+                recipeComments.updateData(comments);
                 // Connect the adapter once we have loaded the ingredients, instructions, and comments
                 viewPager.setAdapter(new RecipeDetailFragmentPagerAdapter(getFragmentManager()));
-
                 Log.e("RecipeDetail", "Server completion");
             }
         });
@@ -118,8 +133,7 @@ public class RecipeDetailFragment extends Fragment {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    private class RecipeDetailFragmentPagerAdapter extends FragmentPagerAdapter {
-
+    private class RecipeDetailFragmentPagerAdapter extends FragmentStatePagerAdapter {
         RecipeDetailFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -128,14 +142,11 @@ public class RecipeDetailFragment extends Fragment {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if (position == INGREDIENTS_IDX) {
-                RecipeDetailIngredientAdapter adapter = new RecipeDetailIngredientAdapter(recipeIngredients);
-                return RecipeDetailFragmentPage.newInstance(adapter, "All items in pantry");
+                return RecipeDetailFragmentPage.newInstance(recipeIngredients, "All items in pantry");
             } else if (position == INSTRUCTIONS_IDX) {
-                RecipeDetailInstructionAdapter adapter = new RecipeDetailInstructionAdapter(recipeInstructions);
-                return RecipeDetailFragmentPage.newInstance(adapter, null);
+                return RecipeDetailFragmentPage.newInstance(recipeInstructions, null);
             } else if (position == COMMENTS_IDX) {
-                RecipeDetailCommentAdapter adapter = new RecipeDetailCommentAdapter(recipeComments);
-                return RecipeDetailFragmentPage.newInstance(adapter, "ALLRECIPES.COM");
+                return RecipeDetailFragmentPage.newInstance(recipeComments, "ALLRECIPES.COM");
             }
             return new Fragment();
         }

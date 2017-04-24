@@ -13,7 +13,7 @@
         android:layout_marginStart="@dimen/text_margin_small"
         android:layout_marginTop="@dimen/text_margin"
         android:layout_toEndOf="@+id/recipe_detail_ingredient_name"
-        android:text="@string/grocery_expiration_date_title"
+        android:text="@string/grocery_quantity_title"
         android:textAlignment="textEnd"
         android:textAppearance="@style/CardHeadingStyle" />
 
